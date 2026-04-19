@@ -156,9 +156,8 @@ export default function Fireflies({ isGlobal = false }: { isGlobal?: boolean }) 
         ref={canvasBgRef}
         className="absolute inset-0 z-[1] w-full h-full block pointer-events-none"
         style={{
-          mixBlendMode: 'screen',
           transform: 'translate3d(0,0,0)',
-          WebkitTransform: 'translate3d(0,0,0)',
+          willChange: 'transform'
         }}
       />
 
@@ -169,7 +168,7 @@ export default function Fireflies({ isGlobal = false }: { isGlobal?: boolean }) 
         style={{ 
           mixBlendMode: 'screen',
           transform: 'translate3d(0,0,0)',
-          WebkitTransform: 'translate3d(0,0,0)',
+          willChange: 'transform'
         }}
       />
     </div>

@@ -1,9 +1,10 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { Firefly } from '../Fireflies/Firefly';
 
 export default function InteractiveFrog({ isGlobal = false }: { isGlobal?: boolean }) {
   const frogContainerRef = useRef<HTMLDivElement>(null);
+  const branchCanvasRef = useRef<HTMLCanvasElement>(null);
   const ecosystemIdRef = useRef<string | null>(null);
   const mouthRef = useRef<SVGCircleElement>(null);
   
@@ -13,6 +14,51 @@ export default function InteractiveFrog({ isGlobal = false }: { isGlobal?: boole
   
   // Only strictly triggers React updates when CSS transform boolean states change
   const [visualState, setVisualState] = useState({ isEating: false, isChewing: false });
+
+  // Draw the natural branch texture (sampled from the frog image itself) across the full screen width
+  const drawBranch = useCallback(() => {
+    const canvas = branchCanvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const cssW = window.innerWidth;
+    const cssH = canvas.offsetHeight || 50;
+    canvas.width = cssW;
+    canvas.height = cssH;
+
+    const img = new Image();
+    img.src = '/frog-closed-trans.png';
+    img.onload = () => {
+      // Source slice: left portion of the image at branch height.
+      // The 640×640 image has the branch in the lower section (~y 360-480).
+      // We take x: 0-220 (pure bark, frog body is further right) as the repeating tile.
+      const srcX = 0;
+      const srcY = 360;
+      const srcW = 220;
+      const srcH = 120;
+
+      // Draw the slice into a small offscreen tile, scaled to canvas height
+      const tile = document.createElement('canvas');
+      tile.width = srcW;
+      tile.height = cssH;
+      const tCtx = tile.getContext('2d')!;
+      tCtx.drawImage(img, srcX, srcY, srcW, srcH, 0, 0, srcW, cssH);
+
+      // Tile the branch strip across the full width
+      const pattern = ctx.createPattern(tile, 'repeat-x');
+      if (pattern) {
+        ctx.fillStyle = pattern;
+        ctx.fillRect(0, 0, cssW, cssH);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    drawBranch();
+    window.addEventListener('resize', drawBranch);
+    return () => window.removeEventListener('resize', drawBranch);
+  }, [drawBranch]);
 
   useEffect(() => {
     let raf: number;
@@ -131,35 +177,32 @@ export default function InteractiveFrog({ isGlobal = false }: { isGlobal?: boole
     <>
       {/* EXTENDED BACKGROUND BRANCH (Unified Physical Node)
           Encapsulating the organic physical geometry of the entity explicitly into its own layout tier */}
-      <div 
-         className={`${isGlobal ? 'fixed' : 'absolute'} w-full z-[0] pointer-events-none`}
-         style={{ 
-             left: 0,
-             bottom: 'calc(2% + 36px)', 
-             height: '40px',
-             backgroundImage: "url('/branch.png')",
-             backgroundRepeat: "repeat-x",
-             backgroundSize: "auto 40px", 
-             backgroundPosition: "right bottom",
-             mixBlendMode: 'screen', 
-         }}
-      />
+      {/* Branch canvas: tiles the real bark texture from the frog image across the full screen width */}
+      {/* <canvas
+        ref={branchCanvasRef}
+        height={50}
+        className={`${isGlobal ? 'fixed' : 'absolute'} pointer-events-none`}
+        style={{
+          left: 0,
+          bottom: 'calc(2% + 36px)',
+          width: '100%',
+          zIndex: 0,
+        }}
+      /> */}
 
       {/* REALISTIC FROG IMAGE RENDERER */}
       <div ref={frogContainerRef} className={`${isGlobal ? 'fixed' : 'absolute'} bottom-[2%] right-[2%] z-[50] w-[180px] h-[180px] pointer-events-none`}>
-        <div className={`relative w-full h-full transition-transform duration-300 ${visualState.isChewing ? 'scale-[1.03] translate-y-1' : 'scale-100 translate-y-0'}`}>
+        <div className={`relative w-full h-full transition-transform duration-300`}>
           <img 
-            src="/frog-closed.png" 
+            src="/frog-closed-trans.png" 
             alt="Closed Frog Mouth" 
             className={`absolute inset-0 w-full h-full object-contain drop-shadow-[0_0_15px_rgba(74,222,128,0.3)] transition-opacity duration-75 ${visualState.isEating ? 'opacity-0' : 'opacity-100'}`} 
-            style={{ mixBlendMode: 'screen' }}
             onError={(e) => e.currentTarget.style.display = 'none'} 
           />
           <img 
-            src="/frog-open.png" 
+            src="/frog-open-trans.png" 
             alt="Open Frog Mouth" 
             className={`absolute inset-0 w-full h-full object-contain drop-shadow-[0_0_15px_rgba(74,222,128,0.3)] transition-opacity duration-75 ${visualState.isEating ? 'opacity-100' : 'opacity-0'}`} 
-            style={{ mixBlendMode: 'screen' }}
             onError={(e) => e.currentTarget.style.display = 'none'} 
           />
           
