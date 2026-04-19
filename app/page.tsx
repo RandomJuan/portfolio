@@ -4,7 +4,8 @@ import { experienceData } from "@/lib/experienceData";
 import { contactData } from "@/lib/contactData";
 import { navBarData } from "@/lib/navbarData";
 
-import StarsBackground from "@/components/StarsBackground";
+import Fireflies from "@/components/Fireflies/Fireflies";
+import InteractiveFrog from "@/components/InteractiveFrog/InteractiveFrog";
 import NavBarSection from "@/components/NavBarSection/NavBarSection";
 import PresentationCard from "@/components/PresentationCardSection/PresentationCard";
 import AboutSection from "@/components/AboutSection/AboutSection";
@@ -13,11 +14,10 @@ import ContactSection from "@/components/ContactSection/ContactSection";
 
 export default function Home() {
   return (
-    <main className="relative flex flex-col min-h-screen w-full overflow-hidden scroll-smooth selection:bg-cyan-900 selection:text-white">
+    <main>
       <NavBarSection navBarData={navBarData} />
-      <StarsBackground />
-      
-      <section id="home" className="min-h-screen w-full relative z-10 flex flex-col items-center justify-center">
+
+      <section id="home" className="relative z-10 w-full min-h-screen">
         <PresentationCard presentationCard={presentationCardData} />
       </section>
 
@@ -28,10 +28,13 @@ export default function Home() {
       <section id="experience" className="min-h-screen w-full relative z-10 flex flex-col items-center justify-center px-6 md:px-12 lg:px-24">
         <ExperienceSection experienceData={experienceData} />
       </section>
-
       <section id="contact" className="min-h-screen w-full relative z-10 flex flex-col justify-end">
         <ContactSection contactData={contactData} />
       </section>
+
+      {/* Global SPA mode triggers organically when explicitly defining 'isGlobal' natively */}
+      <Fireflies isGlobal />
+      <InteractiveFrog isGlobal />
     </main>
   );
 }

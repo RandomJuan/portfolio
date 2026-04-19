@@ -11,7 +11,7 @@ export default function AboutSection({ aboutData }: Props) {
       <div className="w-full md:w-1/2 flex justify-center">
         <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(255,255,255,0.1)] border border-slate-800 backdrop-blur-sm avoid-zone">
           <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-950 flex items-center justify-center pointer-events-none">
-            <span className="text-slate-500 font-mono text-sm">[Profile Photo]</span>
+            <img className="text-slate-500 font-mono text-sm" src={aboutData.srcPhoto}></img>
           </div>
         </div>
       </div>
