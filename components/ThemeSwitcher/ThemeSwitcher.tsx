@@ -23,7 +23,7 @@ export default function ThemeSwitcher() {
   const darkThemes = themes.filter((t) => t.mode === 'dark');
 
   return (
-    <div ref={ref} className="fixed top-5 right-5 z-[999]">
+    <div ref={ref} className="fixed top-20 right-5 z-[999]">
       {/* Botón Principal */}
       <button
         onClick={() => setOpen((v) => !v)}
