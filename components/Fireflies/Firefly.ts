@@ -28,6 +28,7 @@ export class Firefly {
     this.targetAng = this.ang;
 
     this.glowColor = Math.random() > 0.5 ? '0, 120, 255' : '0, 160, 255';
+    // this.glowColor = Math.random() > 0.5 ? '57, 255, 20' : '120, 255, 80';
     this.groupId = Math.floor(Math.random() * 5);
 
     this.x = (Math.random() - 0.5) * w * 3;

@@ -11,30 +11,37 @@ import PresentationCard from "@/components/PresentationCardSection/PresentationC
 import AboutSection from "@/components/AboutSection/AboutSection";
 import ExperienceSection from "@/components/ExperienceSection/ExperienceSection";
 import ContactSection from "@/components/ContactSection/ContactSection";
+import { ThemeProvider } from "@/components/ThemeProvider/ThemeContext";
+import ThemeSwitcher from "@/components/ThemeSwitcher/ThemeSwitcher";
 
 export default function Home() {
   return (
-    <main>
-      <NavBarSection navBarData={navBarData} />
+    <ThemeProvider>
+      <main>
+        <NavBarSection navBarData={navBarData} />
 
-      <section id="home" className="relative z-10 w-full min-h-screen">
-        <PresentationCard presentationCard={presentationCardData} />
-      </section>
+        {/* Theme Switcher — fixed top-right, above everything */}
+        <ThemeSwitcher />
 
-      <section id="about" className="min-h-screen w-full relative z-10 flex flex-col items-center justify-center px-6 md:px-12 lg:px-24">
-        <AboutSection aboutData={aboutData} />
-      </section>
+        <section id="home" className="relative z-10 w-full min-h-screen">
+          <PresentationCard presentationCard={presentationCardData} />
+        </section>
 
-      <section id="experience" className="min-h-screen w-full relative z-10 flex flex-col items-center justify-center px-6 md:px-12 lg:px-24">
-        <ExperienceSection experienceData={experienceData} />
-      </section>
-      <section id="contact" className="min-h-screen w-full relative z-10 flex flex-col justify-end">
-        <ContactSection contactData={contactData} />
-      </section>
+        <section id="about" className="min-h-screen w-full relative z-10 flex flex-col items-center justify-center px-6 md:px-12 lg:px-24">
+          <AboutSection aboutData={aboutData} />
+        </section>
 
-      {/* Global SPA mode triggers organically when explicitly defining 'isGlobal' natively */}
-      <Fireflies isGlobal />
-      <InteractiveFrog isGlobal />
-    </main>
+        <section id="experience" className="min-h-screen w-full relative z-10 flex flex-col items-center justify-center px-6 md:px-12 lg:px-24">
+          <ExperienceSection experienceData={experienceData} />
+        </section>
+        <section id="contact" className="min-h-screen w-full relative z-10 flex flex-col justify-end">
+          <ContactSection contactData={contactData} />
+        </section>
+
+        {/* Global SPA mode triggers organically when explicitly defining 'isGlobal' natively */}
+        <Fireflies isGlobal />
+        {/* <InteractiveFrog isGlobal /> */}
+      </main>
+    </ThemeProvider>
   );
 }

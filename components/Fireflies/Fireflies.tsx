@@ -1,6 +1,9 @@
 'use client';
 import { useEffect, useRef, useId } from 'react';
 import { Firefly, GroupTarget } from './Firefly';
+import { useTheme } from '@/components/ThemeProvider/ThemeContext';
+
+
 
 declare global {
   interface Window {
@@ -20,9 +23,19 @@ export default function Fireflies({ isGlobal = false }: { isGlobal?: boolean }) 
   const canvasFgRef = useRef<HTMLCanvasElement>(null);
   
   const ecosystemId = useId();
+  const { theme } = useTheme();
 
   // Maintain local instance array safely
   const firefliesRef = useRef<Firefly[]>([]);
+
+  // Sync firefly glow colors whenever theme changes
+  useEffect(() => {
+    for (const fly of firefliesRef.current) {
+      fly.glowColor = Math.random() > 0.5
+        ? theme.firefly.primary
+        : theme.firefly.secondary;
+    }
+  }, [theme]);
 
   useEffect(() => {
     // Register global registry map securely for multi-instance support elegantly
@@ -39,7 +52,7 @@ export default function Fireflies({ isGlobal = false }: { isGlobal?: boolean }) 
     if (!ctxBg || !ctxFg) return;
 
     const sprite = new Image();
-    sprite.src = '/firefly.svg';
+    // sprite.src = '/firefly.svg';
 
     let animationFrameId: number;
     let groupTargets: GroupTarget[] = Array.from({ length: 5 }, () => ({ x: 0, y: 0, z: 0 }));
@@ -110,7 +123,6 @@ export default function Fireflies({ isGlobal = false }: { isGlobal?: boolean }) 
 
     const render = () => {
       const canvasBg = canvasBgRef.current;
-      const canvasFg = canvasFgRef.current;
       if (!canvasBg || !canvasFg) return;
       
       ctxBg.clearRect(0, 0, canvasBg.width, canvasBg.height);
@@ -148,8 +160,20 @@ export default function Fireflies({ isGlobal = false }: { isGlobal?: boolean }) 
   }, [isGlobal, ecosystemId]);
 
   return (
-    <div data-ecosystem-id={ecosystemId} ref={containerRef} className={`${isGlobal ? 'fixed' : 'absolute'} inset-0 w-full h-full pointer-events-none z-[0] overflow-hidden`}>
-      <div className="absolute inset-0 z-0 bg-[#020617] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-indigo-950 via-[#020617] to-[#01020a] pointer-events-none" />
+    <div
+      data-ecosystem-id={ecosystemId}
+      ref={containerRef}
+      className={`${isGlobal ? 'fixed' : 'absolute'} inset-0 w-full h-full pointer-events-none z-[0] overflow-hidden`}
+      style={{ transition: 'background 0.6s ease' }}
+    >
+      {/* Dynamic background driven by active theme */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{
+          background: theme.bgGradient,
+          transition: 'background 0.6s ease',
+        }}
+      />
 
       {/* BACKGROUND SCENE */}
       <canvas
