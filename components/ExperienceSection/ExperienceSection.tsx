@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { ExperienceData } from "@/types/experience";
+import Fireflies from "../Fireflies/Fireflies";
 
 type Props = {
   experienceData: ExperienceData;
@@ -165,6 +166,7 @@ export default function ExperienceSection({ experienceData }: Props) {
           </div>
         </div>
       </div>
+      {/* <Fireflies/> */}
     </>
   );
 }

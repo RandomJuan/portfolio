@@ -18,7 +18,7 @@ const PresentationCard = ({ presentationCard }: Props) => {
           {presentationCard.name}
         </h1>
 
-        <p className="text-base md:text-lg text-gray-500">
+        <p className="text-base md:text-lg  text-gray-300">
           {presentationCard.description}
         </p>
 
