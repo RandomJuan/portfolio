@@ -17,6 +17,11 @@ export const experienceData: ExperienceData = {
       period: "2024 - 2026",
       title: "Personal Project",
       description: "As a personal project and a hobby, I have been exploring the intersection of audio processing and business automation. I spend my free time experimenting with different ways to map speech to action, specifically looking into how Convolutional Neural Networks can handle audio spectrograms and how Transformers can help interpret intent. This is a project I have been working on because I want to keep learning about frequency mapping and modern AI stacks through hands-on experience. It is a way for me to test how we might simplify everyday tasks and make digital interactions feel more fluid and natural."
+    },
+    {
+      period: "2025 - 2026",
+      title: "IT Support & Hardware Technician | Department of Education and Youth",
+      description: "Relocating to Dublin, Ireland, presented a valuable opportunity to immerse myself in an English-speaking professional environment while directly applying the foundational hardware concepts I studied in university. Working with the Department of Education and Youth, I provided comprehensive technical support for computer hardware, diagnosing and resolving issues across desktops, laptops, and peripheral devices. My responsibilities included installing, configuring, and maintaining operating systems and essential software across multiple workstations. Beyond performing routine maintenance, upgrades, and component replacements, I actively assisted staff with technical problems, offering different solutions. This experience not only reinforced my hands-on understanding of hardware and IT infrastructure , but also what I was aiming for: It refined my ability to communicate technical things in English."
     }
   ],
   techStackTitle: "Core Stack",

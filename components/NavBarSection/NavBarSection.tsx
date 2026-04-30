@@ -142,10 +142,9 @@ export default function NavBarSection({ navBarData }: Props) {
               <a 
                 href={item.href}
                 className={`flex items-center gap-4 text-base font-semibold transition-all duration-300
-                  ${activeIndex === i ? (theme.mode === 'dark' ? 'text-white translate-x-2' : 'text-slate-900 translate-x-2') : (theme.mode === 'dark' ? 'text-slate-400' : 'text-slate-500')}
+                  ${activeIndex === i ? (theme.mode === 'dark' ? 'text-white translate-x-2' : 'text-slate-900 translate-x-2') : (theme.mode === 'dark' ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700')}
                   hover:translate-x-2 cursor-pointer
                 `}
-                onMouseEnter={() => setActiveIndex(i)}
                 onClick={() => setIsOpen(false)}
               >
                 <span 
