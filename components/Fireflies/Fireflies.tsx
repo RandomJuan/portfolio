@@ -31,6 +31,8 @@ export default function Fireflies({ isGlobal = false }: { isGlobal?: boolean }) 
   // Sync firefly glow colors whenever theme changes
   useEffect(() => {
     for (const fly of firefliesRef.current) {
+      fly.basePrimary = theme.firefly.primary;
+      fly.baseSecondary = theme.firefly.secondary;
       fly.glowColor = Math.random() > 0.5
         ? theme.firefly.primary
         : theme.firefly.secondary;
@@ -89,7 +91,9 @@ export default function Fireflies({ isGlobal = false }: { isGlobal?: boolean }) 
       // Populate ecosystem lazily only if not already spawned
       if (firefliesRef.current.length === 0) {
         const ecosystemSize = 200;
-        const newFlies = Array.from({ length: ecosystemSize }, () => new Firefly(canvasBg.width, canvasBg.height));
+        const newFlies = Array.from({ length: ecosystemSize }, () => 
+          new Firefly(canvasBg.width, canvasBg.height, theme.firefly.primary, theme.firefly.secondary)
+        );
         firefliesRef.current.push(...newFlies);
       }
     };

@@ -20,15 +20,19 @@ export class Firefly {
 
   isBeingEaten: boolean;
   combinationCount: number;
+  basePrimary: string;
+  baseSecondary: string;
 
-  constructor(w: number, h: number) {
+  constructor(w: number, h: number, primary: string, secondary: string) {
+    this.basePrimary = primary;
+    this.baseSecondary = secondary;
     this.s = Math.random() * 40 + 20;
     this.v = Math.random() * 2 + 1;
     this.vz = (Math.random() - 0.5) * 2;
     this.ang = Math.random() * Math.PI * 2;
     this.targetAng = this.ang;
 
-    this.glowColor = Math.random() > 0.5 ? '0, 120, 255' : '0, 160, 255';
+    this.glowColor = Math.random() > 0.5 ? this.basePrimary : this.baseSecondary;
     this.groupId = Math.floor(Math.random() * 5);
 
     this.x = (Math.random() - 0.5) * w * 3;
@@ -60,7 +64,7 @@ export class Firefly {
     if (this.combinationCount >= 5) {
       // It has reached its max capacity. Make space for a normal one maintaining balance.
       this.s = Math.random() * 40 + 20;
-      this.glowColor = Math.random() > 0.5 ? '0, 120, 255' : '0, 160, 255';
+      this.glowColor = Math.random() > 0.5 ? this.basePrimary : this.baseSecondary;
       this.combinationCount = 0;
       this.isOn = false;
       this.timer = 0;
@@ -114,7 +118,7 @@ export class Firefly {
       // If it naturally fades away after combining, it resets to normal balance
       if (this.combinationCount > 0) {
           this.s = Math.random() * 40 + 20;
-          this.glowColor = Math.random() > 0.5 ? '0, 120, 255' : '0, 160, 255';
+          this.glowColor = Math.random() > 0.5 ? this.basePrimary : this.baseSecondary;
           this.combinationCount = 0;
       }
     } else if (!this.isOn && this.timer > this.offDuration) {
