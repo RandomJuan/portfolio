@@ -134,7 +134,7 @@ export class Firefly {
     this.z += this.vz;
   }
 
-  draw(ctx: CanvasRenderingContext2D, img: HTMLImageElement, w: number, h: number) {
+  draw(ctx: CanvasRenderingContext2D, w: number, h: number) {
     if (this.alpha <= 0.01) return;
 
     const focus = 400;
@@ -158,10 +158,6 @@ export class Firefly {
     ctx.arc(0, 0, dynamicRadius, 0, Math.PI * 2);
     ctx.fillStyle = grad;
     ctx.fill();
-
-    ctx.rotate(this.ang + Math.PI / 2);
-    ctx.globalAlpha = this.alpha;
-    ctx.drawImage(img, -screenS / 2, -screenS / 2, screenS, screenS);
 
     ctx.restore();
   }

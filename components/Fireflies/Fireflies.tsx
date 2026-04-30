@@ -51,9 +51,6 @@ export default function Fireflies({ isGlobal = false }: { isGlobal?: boolean }) 
     const ctxFg = canvasFg.getContext('2d');
     if (!ctxBg || !ctxFg) return;
 
-    const sprite = new Image();
-    // sprite.src = '/firefly.svg';
-
     let animationFrameId: number;
     let groupTargets: GroupTarget[] = Array.from({ length: 5 }, () => ({ x: 0, y: 0, z: 0 }));
 
@@ -129,15 +126,12 @@ export default function Fireflies({ isGlobal = false }: { isGlobal?: boolean }) 
       ctxFg.clearRect(0, 0, canvasFg.width, canvasFg.height);
 
       for (const fly of firefliesRef.current) {
-        // Core wandering algorithm completely agnostic of any predators 
         fly.updateWander(canvasBg.width, canvasBg.height, groupTargets[fly.groupId], firefliesRef.current);
 
-        if (sprite.complete) {
-          if (fly.z > 400) {
-            fly.draw(ctxBg, sprite, canvasBg.width, canvasBg.height);
-          } else {
-            fly.draw(ctxFg, sprite, canvasFg.width, canvasFg.height);
-          }
+        if (fly.z > 400) {
+          fly.draw(ctxBg, canvasBg.width, canvasBg.height);
+        } else {
+          fly.draw(ctxFg, canvasFg.width, canvasFg.height);
         }
       }
 

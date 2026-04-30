@@ -2,9 +2,9 @@ export type ThemeId =
   | 'abyss'
   | 'neon-forest'
   | 'cyber-reef'
-  | 'ivory-mist'
-  | 'petal-dusk'
-  | 'solar-pulse';
+  | 'light-black'
+  | 'light-lava'
+  | 'light-mixed';
 
 export interface FireflyColor {
   /** Two RGB strings used to randomly pick a glow color per firefly */
@@ -26,4 +26,6 @@ export interface ThemeConfig {
   accentRing: string;
   /** Hex accent for navbar text / hover tint */
   accentHex: string;
+  /** Tailwind text color class based on theme mode */
+  textColor: string;
 }

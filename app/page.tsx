@@ -5,7 +5,6 @@ import { contactData } from "@/lib/contactData";
 import { navBarData } from "@/lib/navbarData";
 
 import Fireflies from "@/components/Fireflies/Fireflies";
-import InteractiveFrog from "@/components/InteractiveFrog/InteractiveFrog";
 import NavBarSection from "@/components/NavBarSection/NavBarSection";
 import PresentationCard from "@/components/PresentationCardSection/PresentationCard";
 import AboutSection from "@/components/AboutSection/AboutSection";
@@ -40,7 +39,6 @@ export default function Home() {
 
         {/* Global SPA mode triggers organically when explicitly defining 'isGlobal' natively */}
         <Fireflies isGlobal />
-        {/* <InteractiveFrog isGlobal /> */}
       </main>
     </ThemeProvider>
   );

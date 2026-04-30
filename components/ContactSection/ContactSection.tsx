@@ -14,10 +14,10 @@ export default function ContactSection({ contactData }: Props) {
       <div className="w-full max-w-4xl px-6 flex flex-col items-center gap-8 relative z-10 avoid-zone">
         
         <div className="text-center">
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
+          <h2 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight">
             {contactData.title}
           </h2>
-          <p className="text-slate-400 text-lg">
+          <p className="opacity-75 text-lg">
             {contactData.description}
           </p>
         </div>
@@ -30,14 +30,14 @@ export default function ContactSection({ contactData }: Props) {
         </a>
 
         {/* Footer Content */}
-        <footer className="w-full pt-16 flex flex-col md:flex-row justify-between items-center gap-6 border-t border-slate-800/50 mt-12">
-          <p className="text-slate-500 text-sm">
+        <footer className="w-full pt-16 flex flex-col md:flex-row justify-between items-center gap-6 border-t border-slate-500/30 mt-12">
+          <p className="opacity-60 text-sm">
             {contactData.copyright}
           </p>
 
           <div className="flex gap-6">
             {contactData.socials.map((social, index) => (
-             <a key={index} href={social.url} className="text-slate-400 hover:text-cyan-400 transition-colors">
+             <a key={index} href={social.url} className="opacity-75 hover:text-cyan-500 hover:opacity-100 transition-all">
                {social.name}
              </a>
             ))}

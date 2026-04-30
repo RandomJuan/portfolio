@@ -14,6 +14,7 @@ export const themes: ThemeConfig[] = [
     },
     accentRing: 'ring-blue-500',
     accentHex: '#60a5fa',
+    textColor: 'text-white',
   },
   {
     id: 'neon-forest',
@@ -27,6 +28,7 @@ export const themes: ThemeConfig[] = [
     },
     accentRing: 'ring-green-400',
     accentHex: '#4ade80',
+    textColor: 'text-white',
   },
   {
     id: 'cyber-reef',
@@ -40,47 +42,51 @@ export const themes: ThemeConfig[] = [
     },
     accentRing: 'ring-cyan-400',
     accentHex: '#22d3ee',
+    textColor: 'text-white',
   },
 
   // ─────────────────────────── LIGHT THEMES ─────────────────────────────
   {
-    id: 'ivory-mist',
+    id: 'light-black',
     mode: 'light',
-    background: '#fafaf8',
+    background: '#ffffff',
     bgGradient:
-      'radial-gradient(ellipse at center, #fffbeb 0%, #fef9f0 55%, #fafaf8 100%)',
+      'radial-gradient(ellipse at center, #ffffff 0%, #f8f9fa 55%, #f1f3f5 100%)',
     firefly: {
-      primary: '255, 180, 0',
-      secondary: '255, 210, 60',
+      primary: '0, 0, 0',
+      secondary: '40, 40, 40',
     },
-    accentRing: 'ring-amber-400',
-    accentHex: '#f59e0b',
+    accentRing: 'ring-slate-800',
+    accentHex: '#1e293b',
+    textColor: 'text-slate-900',
   },
   {
-    id: 'petal-dusk',
+    id: 'light-lava',
     mode: 'light',
-    background: '#fdf4ff',
+    background: '#ffffff',
     bgGradient:
-      'radial-gradient(ellipse at center, #fce7f3 0%, #fdf2f8 55%, #fdf4ff 100%)',
+      'radial-gradient(ellipse at center, #ffffff 0%, #fff5f5 55%, #ffe3e3 100%)',
     firefly: {
-      primary: '236, 72, 153',
-      secondary: '167, 139, 250',
+      primary: '255, 69, 0',
+      secondary: '255, 140, 0',
     },
-    accentRing: 'ring-pink-400',
-    accentHex: '#ec4899',
+    accentRing: 'ring-orange-500',
+    accentHex: '#f97316',
+    textColor: 'text-slate-900',
   },
   {
-    id: 'solar-pulse',
+    id: 'light-mixed',
     mode: 'light',
-    background: '#fffbf0',
+    background: '#ffffff',
     bgGradient:
-      'radial-gradient(ellipse at center, #fff7e6 0%, #fffbf0 55%, #ffffff 100%)',
+      'radial-gradient(ellipse at center, #ffffff 0%, #faf5ff 55%, #f3e8ff 100%)',
     firefly: {
-      primary: '255, 120, 0',
-      secondary: '255, 210, 0',
+      primary: '0, 0, 0',
+      secondary: '255, 69, 0',
     },
-    accentRing: 'ring-orange-400',
-    accentHex: '#fb923c',
+    accentRing: 'ring-purple-500',
+    accentHex: '#a855f7',
+    textColor: 'text-slate-900',
   },
 ];
 

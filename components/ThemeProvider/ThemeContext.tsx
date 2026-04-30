@@ -34,6 +34,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  // Apply body text color dynamically
+  useEffect(() => {
+    document.documentElement.style.setProperty('--foreground', theme.mode === 'dark' ? '#f8fafc' : '#0f172a');
+    document.body.classList.remove('text-white', 'text-slate-900');
+    document.body.classList.add(theme.textColor);
+  }, [theme]);
+
   const setThemeById = useCallback((id: ThemeId) => {
     const found = themes.find((t) => t.id === id);
     if (!found) return;

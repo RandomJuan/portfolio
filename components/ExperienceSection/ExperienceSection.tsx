@@ -89,7 +89,7 @@ export default function ExperienceSection({ experienceData }: Props) {
             {experienceData.sectionTitle}
           </h2>
           <div className="w-16 h-[1px] bg-cyan-900/50 mb-4" />
-          <h3 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
+          <h3 className="text-3xl md:text-5xl font-bold opacity-90">
             My Journey
           </h3>
         </div>
@@ -126,16 +126,16 @@ export default function ExperienceSection({ experienceData }: Props) {
                     style={{ transitionDelay: `${index * 120 + 80}ms` }}
                     className={`w-full md:w-1/2 ${isEven ? "md:pl-16" : "md:pr-16"}`}
                   >
-                    <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-8 rounded-3xl hover:border-cyan-900/50 hover:bg-slate-900/60 transition-all duration-300 group shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+                    <div className="bg-slate-500/10 backdrop-blur-md border border-slate-500/20 p-8 rounded-3xl hover:border-cyan-500/50 hover:bg-slate-500/20 transition-all duration-300 group shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
                       <div className="flex items-center gap-4 mb-4">
-                        <span className="px-3 py-1 rounded-full border border-cyan-900/50 bg-cyan-950/30 text-cyan-400 text-xs font-mono tracking-wider">
+                        <span className="px-3 py-1 rounded-full border border-cyan-500/50 bg-cyan-500/10 text-cyan-500 text-xs font-mono tracking-wider">
                           {exp.period}
                         </span>
                       </div>
-                      <h3 className="text-2xl font-bold text-slate-100 mb-3 group-hover:text-white transition-colors">
+                      <h3 className="text-2xl font-bold opacity-90 mb-3 group-hover:opacity-100 transition-opacity">
                         {exp.title}
                       </h3>
-                      <p className="text-slate-400 text-base leading-relaxed">
+                      <p className="opacity-75 text-base leading-relaxed">
                         {exp.description}
                       </p>
                     </div>
@@ -148,7 +148,7 @@ export default function ExperienceSection({ experienceData }: Props) {
 
         {/* Tech Stack Row */}
         <div className="w-full mt-16 flex flex-col items-center">
-          <p className="text-xs uppercase tracking-widest text-slate-600 font-mono mb-8">
+          <p className="text-xs uppercase tracking-widest opacity-60 font-mono mb-8">
             {experienceData.techStackTitle}
           </p>
 
@@ -158,7 +158,7 @@ export default function ExperienceSection({ experienceData }: Props) {
                 key={idx}
                 data-animate="from-bottom"
                 style={{ transitionDelay: `${idx * 50}ms` }}
-                className="px-6 py-2.5 rounded-xl bg-slate-900/30 border border-slate-800 text-slate-300 backdrop-blur-sm text-sm font-medium hover:border-cyan-800/50 hover:text-cyan-400 transition-all shadow-sm flex items-center justify-center cursor-default"
+                className="px-6 py-2.5 rounded-xl bg-slate-500/10 border border-slate-500/20 opacity-80 backdrop-blur-sm text-sm font-medium hover:border-cyan-500/50 hover:text-cyan-500 hover:opacity-100 transition-all shadow-sm flex items-center justify-center cursor-default"
               >
                 {tech}
               </div>
