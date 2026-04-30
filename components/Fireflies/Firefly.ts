@@ -19,6 +19,7 @@ export class Firefly {
   offDuration: number;
 
   isBeingEaten: boolean;
+  combinationCount: number;
 
   constructor(w: number, h: number) {
     this.s = Math.random() * 40 + 20;
@@ -28,7 +29,6 @@ export class Firefly {
     this.targetAng = this.ang;
 
     this.glowColor = Math.random() > 0.5 ? '0, 120, 255' : '0, 160, 255';
-    // this.glowColor = Math.random() > 0.5 ? '57, 255, 20' : '120, 255, 80';
     this.groupId = Math.floor(Math.random() * 5);
 
     this.x = (Math.random() - 0.5) * w * 3;
@@ -42,6 +42,7 @@ export class Firefly {
     this.offDuration = Math.random() * 400 + 100;
 
     this.isBeingEaten = false;
+    this.combinationCount = 0;
   }
 
   spawn(w: number, h: number) {
@@ -52,6 +53,53 @@ export class Firefly {
     this.alpha = 0;
     this.timer = 0;
     this.isBeingEaten = false;
+    this.combinationCount = 0;
+  }
+
+  combineWith(other: Firefly, w: number, h: number) {
+    if (this.combinationCount >= 5) {
+      // It has reached its max capacity. Make space for a normal one maintaining balance.
+      this.s = Math.random() * 40 + 20;
+      this.glowColor = Math.random() > 0.5 ? '0, 120, 255' : '0, 160, 255';
+      this.combinationCount = 0;
+      this.isOn = false;
+      this.timer = 0;
+      
+      other.spawn(w, h);
+      return;
+    }
+
+    this.combinationCount++;
+
+    // Mix colors by averaging the RGB values
+    const [r1, g1, b1] = this.glowColor.split(',').map(n => parseInt(n.trim()));
+    const [r2, g2, b2] = other.glowColor.split(',').map(n => parseInt(n.trim()));
+    
+    const mixR = Math.round((r1 + r2) / 2);
+    const mixG = Math.round((g1 + g2) / 2);
+    const mixB = Math.round((b1 + b2) / 2);
+    this.glowColor = `${mixR}, ${mixG}, ${mixB}`;
+
+    // Absorb size, up to a maximum limit so it doesn't cover the screen
+    this.s = Math.min(this.s + other.s * 0.4, 150);
+    
+    // Create a bright pulse flash to signify the combination
+    this.alpha = 1;
+    this.isOn = true;
+    this.timer = 0;
+    // Maintain for another few seconds (approx 5-6 seconds at 60fps)
+    this.onDuration = 300 + Math.random() * 100;
+
+    // The other particle is absorbed, so reset it randomly elsewhere to maintain balance
+    other.x = (Math.random() - 0.5) * w * 3;
+    other.y = (Math.random() - 0.5) * h * 3;
+    other.z = Math.random() * 800 + 200;
+    other.isOn = false;
+    other.alpha = 0;
+    other.timer = 0;
+    other.combinationCount = 0;
+    other.s = Math.random() * 40 + 20;
+    other.offDuration = Math.random() * 600 + 400;
   }
 
   updateWander(w: number, h: number, swarmTarget: GroupTarget, allFireflies: Firefly[]) {
@@ -62,6 +110,13 @@ export class Firefly {
       this.isOn = false;
       this.timer = 0;
       this.offDuration = Math.random() * 500 + 200;
+      
+      // If it naturally fades away after combining, it resets to normal balance
+      if (this.combinationCount > 0) {
+          this.s = Math.random() * 40 + 20;
+          this.glowColor = Math.random() > 0.5 ? '0, 120, 255' : '0, 160, 255';
+          this.combinationCount = 0;
+      }
     } else if (!this.isOn && this.timer > this.offDuration) {
       this.isOn = true;
       this.timer = 0;
@@ -90,7 +145,14 @@ export class Firefly {
 
         const distSq = dx * dx + dy * dy + dz * dz;
 
-        if (distSq < 6400) {
+        // Collision Check: Just consider x,y,z if all of this matches in the particles
+        const matchX = Math.round(this.x) === Math.round(other.x);
+        const matchY = Math.round(this.y) === Math.round(other.y);
+        const matchZ = Math.round(this.z) === Math.round(other.z);
+
+        if (matchX && matchY && matchZ) {
+            this.combineWith(other, w, h);
+        } else if (distSq < 6400) {
             tooClose = true;
             const angleAway = Math.atan2(dy, dx);
             let diffToAway = angleAway - this.targetAng;
@@ -135,9 +197,10 @@ export class Firefly {
   }
 
   draw(ctx: CanvasRenderingContext2D, w: number, h: number) {
+    const focus = 400;
+
     if (this.alpha <= 0.01) return;
 
-    const focus = 400;
     const safeZ = Math.max(-150, this.z);
     const scale = focus / (focus + safeZ);
 

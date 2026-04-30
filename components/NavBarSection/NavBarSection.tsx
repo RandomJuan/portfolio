@@ -24,6 +24,46 @@ export default function NavBarSection({ navBarData }: Props) {
     activeIndexRef.current = activeIndex;
   }, [activeIndex]);
 
+  // Scroll Spy: Automatically sync menu and URL when scrolling natively
+  useEffect(() => {
+    const sectionIds = navBarData.items.map(item => item.href.substring(1));
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = sectionIds.indexOf(entry.target.id);
+            if (index !== -1 && index !== activeIndexRef.current) {
+              activeIndexRef.current = index;
+              setActiveIndex(index);
+              // Silently update URL hash so refreshing keeps you here, without spamming history
+              window.history.replaceState(null, '', `#${entry.target.id}`);
+            }
+          }
+        });
+      },
+      // Consider an element "active" when it crosses the middle 40% of the viewport
+      { rootMargin: "-30% 0px -30% 0px", threshold: 0 }
+    );
+
+    const observeSections = () => {
+      sectionIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) observer.observe(el);
+      });
+    };
+
+    // Initial observe
+    observeSections();
+    // Safety fallback for dynamic client-side rendering
+    const fallbackTimer = setTimeout(observeSections, 500);
+
+    return () => {
+      clearTimeout(fallbackTimer);
+      observer.disconnect();
+    };
+  }, [navBarData.items]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isOpen) {
