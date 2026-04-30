@@ -22,12 +22,10 @@ export default function ExperienceSection({ experienceData }: Props) {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             (entry.target as HTMLElement).classList.add("exp-visible");
-          } else {
-            (entry.target as HTMLElement).classList.remove("exp-visible");
           }
         });
       },
-      { threshold: 0.25 }
+      { threshold: 0.1, rootMargin: "50px" }
     );
 
     animatables.forEach((el) => observer.observe(el));
