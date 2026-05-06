@@ -1,4 +1,4 @@
-import { presentationCard } from "@/types/presentationCard"
+import { presentationCard } from "@/types/presentation"
 
 type Props = {
   presentationCard: presentationCard

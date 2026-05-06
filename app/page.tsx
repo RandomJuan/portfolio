@@ -1,4 +1,4 @@
-import { presentationCardData } from "@/lib/presentationCardData";
+import { presentationCardData } from "@/lib/presentationData";
 import { aboutData } from "@/lib/aboutData";
 import { experienceData } from "@/lib/experienceData";
 import { contactData } from "@/lib/contactData";
@@ -6,7 +6,7 @@ import { navBarData } from "@/lib/navbarData";
 
 import Fireflies from "@/components/Fireflies/Fireflies";
 import NavBarSection from "@/components/NavBarSection/NavBarSection";
-import PresentationCard from "@/components/PresentationCardSection/PresentationCard";
+import PresentationCard from "@/components/PresentationSection/PresentationSection";
 import AboutSection from "@/components/AboutSection/AboutSection";
 import ExperienceSection from "@/components/ExperienceSection/ExperienceSection";
 import ContactSection from "@/components/ContactSection/ContactSection";
