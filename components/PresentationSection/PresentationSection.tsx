@@ -1,4 +1,5 @@
 import { presentationCard } from "@/types/presentation"
+import styles from "./PresentationSection.module.css"
 
 type Props = {
   presentationCard: presentationCard
@@ -6,19 +7,19 @@ type Props = {
 
 const PresentationCard = ({ presentationCard }: Props) => {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-transparent">
+    <div className={styles.container}>
 
-      <div className="flex flex-col items-center text-center gap-4 max-w-xl px-6 relative z-10 avoid-zone">
+      <div className={`${styles.contentWrapper} avoid-zone`}>
 
-        <div className="inline-flex rounded-full border border-[var(--line)] bg-[var(--nav-bg)] px-4 py-1 text-xs uppercase tracking-widest">
+        <div className={styles.roleBadge}>
           {presentationCard.role}
         </div>
 
-        <h1 className="text-4xl md:text-5xl font-bold">
+        <h1 className={styles.nameHeading}>
           {presentationCard.name}
         </h1>
 
-        <p className="text-base md:text-lg opacity-80">
+        <p className={styles.description}>
           {presentationCard.description}
         </p>
 

@@ -1,0 +1,24 @@
+.mainContainer {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: transparent;
+  overflow-x: clip; /* clip doesn't affect fixed positioning coordinate system */
+}
+
+.contentWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* All sections are full-width containers; inner components handle their own centering */
+.sectionHome,
+.sectionAbout,
+.sectionExperience,
+.sectionContact {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  min-height: 100vh;
+}

@@ -2,8 +2,7 @@
 import { useEffect, useRef, useId } from 'react';
 import { Firefly, GroupTarget } from './Firefly';
 import { useTheme } from '@/components/ThemeProvider/ThemeContext';
-
-
+import styles from './Fireflies.module.css';
 
 declare global {
   interface Window {
@@ -161,37 +160,24 @@ export default function Fireflies({ isGlobal = false }: { isGlobal?: boolean }) 
     <div
       data-ecosystem-id={ecosystemId}
       ref={containerRef}
-      className={`${isGlobal ? 'fixed' : 'absolute'} inset-0 w-full h-full pointer-events-none z-[0] overflow-hidden`}
-      style={{ transition: 'background 0.6s ease' }}
+      className={`${styles.container} ${isGlobal ? styles.containerGlobal : styles.containerLocal}`}
     >
       {/* Dynamic background driven by active theme */}
       <div
-        className="absolute inset-0 z-0 pointer-events-none"
-        style={{
-          background: theme.bgGradient,
-          transition: 'background 0.6s ease',
-        }}
+        className={styles.bgGradient}
+        style={{ background: theme.bgGradient }}
       />
 
       {/* BACKGROUND SCENE */}
       <canvas
         ref={canvasBgRef}
-        className="absolute inset-0 z-[1] w-full h-full block pointer-events-none"
-        style={{
-          transform: 'translate3d(0,0,0)',
-          willChange: 'transform'
-        }}
+        className={styles.canvasBg}
       />
 
       {/* FOREGROUND OVERLAY */}
       <canvas
         ref={canvasFgRef}
-        className="absolute inset-0 z-[50] w-full h-full block pointer-events-none"
-        style={{ 
-          mixBlendMode: 'screen',
-          transform: 'translate3d(0,0,0)',
-          willChange: 'transform'
-        }}
+        className={styles.canvasFg}
       />
     </div>
   );

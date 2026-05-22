@@ -1,31 +1,35 @@
-@import "tailwindcss";
-
 :root {
   --background: #bec6e6; /* Deep blue/slate */
   --foreground: #f8fafc;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-html, body {
+html {
   height: 100%;
-  max-width: 100vw;
-  background-color: var(--background);
-  color: var(--foreground);
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@layer components {
-  .cardRole {
-    @apply p-6 rounded-2xl shadow-md bg-white;
-  }
+body {
+  width: 100%;
+  min-height: 100%;
+  /* overflow-x: clip prevents horizontal scroll without breaking fixed-position elements */
+  overflow-x: clip;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  background-color: var(--background);
+  color: var(--foreground);
+  position: relative;
+  transition: background-color 0.5s ease, color 0.5s ease;
+  font-family: var(--font-sans), sans-serif;
+}
+
+.cardRole {
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  background-color: #ffffff;
 }
 
 /* Firefly Core Animations for Realism Pattern */

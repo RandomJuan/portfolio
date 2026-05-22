@@ -1,0 +1,58 @@
+.container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  max-width: 36rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  position: relative;
+  z-index: 10;
+}
+
+.roleBadge {
+  display: inline-flex;
+  border-radius: 9999px;
+  background-color: var(--nav-bg);
+  border: 1px solid var(--foreground);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--foreground) 40%, transparent);
+  padding: 0.25rem 1rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.nameHeading {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  font-weight: 700;
+}
+
+.description {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  opacity: 0.8;
+}
+
+@media (min-width: 768px) {
+  .nameHeading {
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .description {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+}

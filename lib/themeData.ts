@@ -1,22 +1,7 @@
 import { ThemeConfig } from '@/types/theme';
 
 export const themes: ThemeConfig[] = [
-  // ─────────────────────────── POSITION 1: LIGHT (Last one moved to first) ─────────────────────────────
-  {
-    id: 'light-mixed',
-    mode: 'light',
-    background: '#ffffff',
-    bgGradient:
-      'radial-gradient(ellipse at center, #ffffff 0%, #faf5ff 55%, #f3e8ff 100%)',
-    firefly: {
-      primary: '0, 0, 0',
-      secondary: '255, 69, 0',
-    },
-    accentRing: 'ring-purple-500',
-    accentHex: '#a855f7',
-    textColor: 'text-slate-900',
-  },
-  // ─────────────────────────── POSITION 2: DARK ──────────────────────────────
+  // ─────────────────────────── POSITION 1: abyss (formerly 2nd) ─────────────────────────────
   {
     id: 'abyss',
     mode: 'dark',
@@ -31,7 +16,7 @@ export const themes: ThemeConfig[] = [
     accentHex: '#60a5fa',
     textColor: 'text-white',
   },
-  // ─────────────────────────── POSITION 3: LIGHT ─────────────────────────────
+  // ─────────────────────────── POSITION 2: light-black (formerly 3rd) ────────────────────────
   {
     id: 'light-black',
     mode: 'light',
@@ -46,7 +31,7 @@ export const themes: ThemeConfig[] = [
     accentHex: '#1e293b',
     textColor: 'text-slate-900',
   },
-  // ─────────────────────────── POSITION 4: DARK ──────────────────────────────
+  // ─────────────────────────── POSITION 3: neon-forest (formerly 4th) ────────────────────────
   {
     id: 'neon-forest',
     mode: 'dark',
@@ -61,7 +46,7 @@ export const themes: ThemeConfig[] = [
     accentHex: '#4ade80',
     textColor: 'text-white',
   },
-  // ─────────────────────────── POSITION 5: LIGHT ─────────────────────────────
+  // ─────────────────────────── POSITION 4: light-lava (formerly 5th) ─────────────────────────
   {
     id: 'light-lava',
     mode: 'light',
@@ -76,7 +61,7 @@ export const themes: ThemeConfig[] = [
     accentHex: '#f97316',
     textColor: 'text-slate-900',
   },
-  // ─────────────────────────── POSITION 6: DARK ──────────────────────────────
+  // ─────────────────────────── POSITION 5: cyber-reef (formerly 6th) ─────────────────────────
   {
     id: 'cyber-reef',
     mode: 'dark',
@@ -90,6 +75,21 @@ export const themes: ThemeConfig[] = [
     accentRing: 'ring-cyan-400',
     accentHex: '#22d3ee',
     textColor: 'text-white',
+  },
+  // ─────────────────────────── POSITION 6: light-mixed (formerly 1st) ─────────────────────────
+  {
+    id: 'light-mixed',
+    mode: 'light',
+    background: '#ffffff',
+    bgGradient:
+      'radial-gradient(ellipse at center, #ffffff 0%, #fefcf0 55%, #fef3c7 100%)',
+    firefly: {
+      primary: '0, 0, 0',
+      secondary: '234, 179, 8',
+    },
+    accentRing: 'ring-amber-500',
+    accentHex: '#d97706',
+    textColor: 'text-slate-900',
   },
 ];
 

@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTheme } from '@/components/ThemeProvider/ThemeContext';
 import { ThemeConfig } from '@/types/theme';
+import styles from './ThemeSwitcher.module.css';
 
 export default function ThemeSwitcher() {
   const { theme, setThemeById, themes } = useTheme();
@@ -69,23 +70,16 @@ export default function ThemeSwitcher() {
   }, [themes, setThemeById]);
 
   return (
-    <div ref={ref} className="fixed top-0 right-0 z-[999]">
-      <div className="relative flex justify-end">
+    <div ref={ref} className={styles.container}>
+      <div className={styles.wrapper}>
         <button
           onClick={() => setOpen((v) => !v)}
-          className={`
-            flex items-center gap-2 px-4 py-2 rounded-b-xl text-sm font-semibold
-            backdrop-blur-md border border-t-0 transition-all duration-300 shadow-lg select-none cursor-pointer
-            ${theme.mode === 'dark'
-              ? 'bg-slate-900/70 border-slate-700 text-slate-200'
-              : 'bg-white/80 border-slate-200 text-slate-700'
-            }
-          `}
+          className={`${styles.triggerButton} ${theme.mode === 'dark' ? styles.triggerDark : styles.triggerLight}`}
           style={{ boxShadow: `0 4px 12px ${theme.accentHex}44` }}
         >
-          <span className="text-base leading-none">Theme</span>
+          <span className={styles.triggerLabel}>Theme</span>
           <svg
-            className={`w-3.5 h-3.5 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+            className={`${styles.chevron} ${open ? styles.chevronOpen : ''}`}
             fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -95,11 +89,9 @@ export default function ThemeSwitcher() {
         <div
           aria-hidden={!open}
           className={`
-            absolute top-[calc(100%+10px)] right-0 
-            w-56 rounded-2xl overflow-hidden p-2 grid grid-cols-2 gap-2
-            backdrop-blur-xl shadow-2xl border transition-all duration-200 origin-top-right
-            ${open ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}
-            ${theme.mode === 'dark' ? 'bg-slate-900/95 border-slate-700' : 'bg-white/95 border-slate-200'}
+            ${styles.dropdown}
+            ${open ? styles.dropdownOpen : styles.dropdownClosed}
+            ${theme.mode === 'dark' ? styles.dropdownDark : styles.dropdownLight}
           `}
           style={{ boxShadow: `0 20px 40px ${theme.accentHex}22` }}
         >
@@ -122,28 +114,25 @@ function ThemePreviewCard({ t, active, onSelect }: { t: ThemeConfig; active: boo
     <button
       onClick={onSelect}
       title={t.id}
-      className={`
-        relative w-full h-12 rounded-xl overflow-hidden border-2 transition-all duration-200 cursor-pointer
-        ${active ? 'border-current scale-105 shadow-md z-10' : 'border-transparent hover:scale-105 hover:shadow-sm'}
-      `}
+      className={`${styles.previewCard} ${active ? styles.previewActive : styles.previewInactive}`}
       style={{
         background: t.bgGradient,
         borderColor: active ? t.accentHex : 'transparent',
         boxShadow: active ? `0 0 12px ${t.accentHex}88` : 'none'
       }}
     >
-      <div className="absolute inset-0 pointer-events-none opacity-90">
+      <div className={styles.cardInner}>
         <div
-          className="absolute top-2 left-2 w-1.5 h-1.5 rounded-full animate-pulse"
+          className={styles.firefly1}
           style={{ backgroundColor: `rgb(${t.firefly.primary})`, boxShadow: `0 0 6px rgb(${t.firefly.primary})` }}
         />
         <div
-          className="absolute bottom-2 right-2 w-1.5 h-1.5 rounded-full animate-ping"
+          className={styles.firefly2}
           style={{ backgroundColor: `rgb(${t.firefly.secondary})`, boxShadow: `0 0 4px rgb(${t.firefly.secondary})` }}
         />
       </div>
       {active && (
-        <div className="absolute inset-0 border-[2px] border-white/20 rounded-xl pointer-events-none" />
+        <div className={styles.activeRing} />
       )}
     </button>
   );

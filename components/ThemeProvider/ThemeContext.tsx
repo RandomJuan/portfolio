@@ -30,15 +30,27 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const stored = localStorage.getItem('portfolio-theme') as ThemeId | null;
     if (stored) {
       const found = themes.find((t) => t.id === stored);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (found) setTheme(found);
     }
   }, []);
 
-  // Apply body text color dynamically
+  // Apply body text color and background dynamically
   useEffect(() => {
     document.documentElement.style.setProperty('--foreground', theme.mode === 'dark' ? '#f8fafc' : '#0f172a');
+    
+    // Map Tailwind color definitions to raw CSS
+    const textColorHex = theme.textColor === 'text-white' ? '#ffffff' : '#0f172a';
+    document.documentElement.style.setProperty('--text-color', textColorHex);
+    document.body.style.color = textColorHex;
+    
+    // Set the body background to match the theme gradient to prevent overscroll gaps on mobile
+    document.body.style.background = theme.bgGradient;
+    // Also apply it to html so the entire overscroll area matches
+    document.documentElement.style.background = theme.bgGradient;
+    
+    // Clean up any residual Tailwind classes
     document.body.classList.remove('text-white', 'text-slate-900');
-    document.body.classList.add(theme.textColor);
   }, [theme]);
 
   const setThemeById = useCallback((id: ThemeId) => {

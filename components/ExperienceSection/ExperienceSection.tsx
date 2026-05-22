@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { ExperienceData } from "@/types/experience";
 import Fireflies from "../Fireflies/Fireflies";
+import styles from "./ExperienceSection.module.css";
 
 type Props = {
   experienceData: ExperienceData;
@@ -17,86 +18,82 @@ export default function ExperienceSection({ experienceData }: Props) {
 
     const animatables = section.querySelectorAll<HTMLElement>("[data-animate]");
 
+    const rootContainer = section.closest('.preview-viewport-container');
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             (entry.target as HTMLElement).classList.add("exp-visible");
+          } else if (rootContainer) {
+            // Only remove the class when in the navbar so it replays continuously while scrolling
+            (entry.target as HTMLElement).classList.remove("exp-visible");
           }
         });
       },
-      { threshold: 0.1, rootMargin: "50px" }
+      { threshold: 0.1, rootMargin: rootContainer ? "0px" : "50px", root: rootContainer || null }
     );
 
     animatables.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    
+    // Scroll progress line logic
+    const timelineWrapper = section.querySelector(`.${styles.timelineWrapper}`) as HTMLElement;
+    
+    const handleScroll = () => {
+      if (!timelineWrapper) return;
+      const rect = timelineWrapper.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      // Calculate how much the timeline has entered the viewport
+      // It starts when the top of timelineWrapper is at 50% of the screen
+      // It ends when the bottom of timelineWrapper is at 50% of the screen
+      const start = rect.top - windowHeight / 2;
+      
+      let progress = 0;
+      if (start < 0) {
+        progress = Math.min(1, Math.max(0, -start / rect.height));
+      }
+      
+      // Update CSS variable for the height of the progress line
+      timelineWrapper.style.setProperty('--scroll-progress', `${progress}`);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Init
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (
     <>
-      <style>{`
-        /* Base hidden states */
-        [data-animate="from-left"] {
-          opacity: 0;
-          transform: translateX(-60px);
-          transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-                      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        [data-animate="from-right"] {
-          opacity: 0;
-          transform: translateX(60px);
-          transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-                      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        [data-animate="dot"] {
-          opacity: 0;
-          transform: translateX(-50%) scale(0);
-          transition: opacity 0.4s ease,
-                      transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        [data-animate="from-bottom"] {
-          opacity: 0;
-          transform: translateY(30px);
-          transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-                      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        /* Visible states */
-        .exp-visible[data-animate="from-left"],
-        .exp-visible[data-animate="from-right"],
-        .exp-visible[data-animate="from-bottom"] {
-          opacity: 1;
-          transform: translateX(0) translateY(0);
-        }
-        .exp-visible[data-animate="dot"] {
-          opacity: 1;
-          transform: translateX(-50%) scale(1);
-        }
-      `}</style>
-
       <div
         ref={sectionRef}
-        className="w-full max-w-6xl mx-auto flex flex-col gap-16 py-24 avoid-zone"
+        className={`${styles.container} avoid-zone`}
       >
         {/* Title Header */}
         <div
           data-animate="from-bottom"
-          className="w-full flex flex-col items-center text-center"
+          className={styles.titleWrapper}
         >
-          <h2 className="text-sm uppercase tracking-[0.4em] text-cyan-400 font-semibold mb-3">
+          <h2 className={styles.sectionLabel}>
             {experienceData.sectionTitle}
           </h2>
-          <div className="w-16 h-[1px] bg-cyan-900/50 mb-4" />
-          <h3 className="text-3xl md:text-5xl font-bold opacity-90">
+          <div className={styles.separator} />
+          <h3 className={styles.mainTitle}>
             My Journey
           </h3>
         </div>
 
         {/* Timeline Section */}
-        <div className="w-full relative mt-8">
-          <div className="hidden md:block absolute left-1/2 top-4 bottom-4 w-[1px] bg-gradient-to-b from-cyan-900 via-cyan-800/30 to-transparent -translate-x-1/2 rounded" />
+        <div className={styles.timelineWrapper}>
+          <div className={styles.centerLine}>
+            <div className={styles.progressLine} />
+          </div>
 
-          <div className="flex flex-col gap-12 md:gap-24">
+          <div className={styles.cardsWrapper}>
             {experienceData.experiences.map((exp, index) => {
               const isEven = index % 2 === 0;
               // Cards on the right side (isEven=true) come from the right; left cards from left
@@ -107,33 +104,33 @@ export default function ExperienceSection({ experienceData }: Props) {
               return (
                 <div
                   key={index}
-                  className={`relative flex flex-col md:flex-row items-center w-full ${isEven ? "md:flex-row-reverse" : ""}`}
+                  className={`${styles.timelineItem} ${isEven ? styles.timelineItemReverse : ""}`}
                 >
                   {/* Timeline Center Dot */}
                   <div
                     data-animate="dot"
                     style={{ transitionDelay: delay }}
-                    className="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-[#020617] border-2 border-cyan-400 z-10 shadow-[0_0_15px_rgba(34,211,238,0.5)] items-center justify-center"
+                    className={styles.dot}
                   >
-                    <div className="w-1.5 h-1.5 rounded-full bg-slate-300" />
+                    <div className={styles.dotInner} />
                   </div>
 
                   {/* Content Card */}
                   <div
                     data-animate={cardDirection}
                     style={{ transitionDelay: `${index * 120 + 80}ms` }}
-                    className={`w-full md:w-1/2 ${isEven ? "md:pl-16" : "md:pr-16"}`}
+                    className={`${styles.cardContainer} ${isEven ? styles.cardContainerRight : styles.cardContainerLeft}`}
                   >
-                    <div className="bg-slate-500/10 backdrop-blur-md border border-slate-500/20 p-8 rounded-3xl hover:border-cyan-500/50 hover:bg-slate-500/20 transition-all duration-300 group shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
-                      <div className="flex items-center gap-4 mb-4">
-                        <span className="px-3 py-1 rounded-full border border-cyan-500/50 bg-cyan-500/10 text-cyan-500 text-xs font-mono tracking-wider">
+                    <div className={`${styles.cardBody} group`}>
+                      <div className={styles.periodWrapper}>
+                        <span className={styles.periodBadge}>
                           {exp.period}
                         </span>
                       </div>
-                      <h3 className="text-2xl font-bold opacity-90 mb-3 group-hover:opacity-100 transition-opacity">
+                      <h3 className={`${styles.expTitle} group-hover:opacity-100`}>
                         {exp.title}
                       </h3>
-                      <p className="opacity-75 text-base leading-relaxed">
+                      <p className={styles.expDesc}>
                         {exp.description}
                       </p>
                     </div>
@@ -145,18 +142,18 @@ export default function ExperienceSection({ experienceData }: Props) {
         </div>
 
         {/* Tech Stack Row */}
-        <div className="w-full mt-16 flex flex-col items-center">
-          <p className="text-xs uppercase tracking-widest opacity-60 font-mono mb-8">
+        <div className={styles.techRow}>
+          <p className={styles.techTitle}>
             {experienceData.techStackTitle}
           </p>
 
-          <div className="flex flex-wrap justify-center gap-3 md:gap-4 max-w-4xl mx-auto px-4">
+          <div className={styles.techWrap}>
             {experienceData.techStack.map((tech, idx) => (
               <div
                 key={idx}
                 data-animate="from-bottom"
                 style={{ transitionDelay: `${idx * 50}ms` }}
-                className="px-6 py-2.5 rounded-xl bg-slate-500/10 border border-slate-500/20 opacity-80 backdrop-blur-sm text-sm font-medium hover:border-cyan-500/50 hover:text-cyan-500 hover:opacity-100 transition-all shadow-sm flex items-center justify-center cursor-default"
+                className={styles.techBadge}
               >
                 {tech}
               </div>

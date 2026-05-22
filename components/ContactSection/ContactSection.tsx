@@ -1,4 +1,5 @@
 import { ContactData } from "@/types/contact";
+import styles from "./ContactSection.module.css";
 
 type Props = {
   contactData: ContactData;
@@ -6,45 +7,47 @@ type Props = {
 
 export default function ContactSection({ contactData }: Props) {
   return (
-    <div className="w-full flex justify-center items-end pb-8 relative overflow-hidden h-[90vh]">
+    <div className={styles.container}>
       
       {/* Decorative center glowing blob */}
-      <div className="absolute bottom-[-100px] left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-cyan-900/20 blur-[100px] rounded-full pointer-events-none" />
+      <div className={styles.blob} />
 
-      <div className="w-full max-w-4xl px-6 flex flex-col items-center gap-8 relative z-10 avoid-zone">
-        
-        <div className="text-center">
-          <h2 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight">
+      {/* Top spacer to push contact contents down into vertical symmetry */}
+      <div />
+
+      <div className={`${styles.contentWrapper} avoid-zone`}>
+        <div>
+          <h2 className={styles.title}>
             {contactData.title}
           </h2>
-          <p className="opacity-75 text-lg">
+          <p className={styles.description}>
             {contactData.description}
           </p>
         </div>
 
         <a 
           href={`mailto:${contactData.buttonEmail}`}
-          className="px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-full transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(34,211,238,0.4)]"
+          className={styles.actionButton}
         >
           {contactData.buttonText}
         </a>
-
-        {/* Footer Content */}
-        <footer className="w-full pt-16 flex flex-col md:flex-row justify-between items-center gap-6 border-t border-slate-500/30 mt-12">
-          <p className="opacity-60 text-sm">
-            {contactData.copyright}
-          </p>
-
-          <div className="flex gap-6">
-            {contactData.socials.map((social, index) => (
-             <a key={index} href={social.url} className="opacity-75 hover:text-cyan-500 hover:opacity-100 transition-all">
-               {social.name}
-             </a>
-            ))}
-          </div>
-        </footer>
-
       </div>
+
+      {/* Footer Content: Positioned exactly at the absolute bottom of the container, padded to sit beautifully above the floating navbar */}
+      <footer className={styles.footer}>
+        <p className={styles.copyright}>
+          {contactData.copyright}
+        </p>
+
+        <div className={styles.socialsContainer}>
+          {contactData.socials.map((social, index) => (
+           <a key={index} href={social.url} className={styles.socialLink}>
+             {social.name}
+           </a>
+          ))}
+        </div>
+      </footer>
+
     </div>
   );
 }
