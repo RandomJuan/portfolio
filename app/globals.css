@@ -1,3 +1,7 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 :root {
   --background: #bec6e6; /* Deep blue/slate */
   --foreground: #f8fafc;
@@ -7,6 +11,8 @@
 
 html {
   height: 100%;
+  width: 100%;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -14,8 +20,9 @@ html {
 body {
   width: 100%;
   min-height: 100%;
-  /* overflow-x: clip prevents horizontal scroll without breaking fixed-position elements */
-  overflow-x: clip;
+  margin: 0;
+  /* overflow-x: hidden prevents any horizontal scroll strictly */
+  overflow-x: hidden;
   overflow-y: auto;
   scroll-behavior: smooth;
   background-color: var(--background);

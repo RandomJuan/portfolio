@@ -12,6 +12,21 @@
   flex-direction: column;
 }
 
+/* Ensure the fixed navbar doesn't cover content */
+@media (min-width: 768px) {
+  .contentWrapper {
+    /* Desktop navbar is fixed at the top */
+    padding-top: 100px; 
+  }
+}
+
+@media (max-width: 767px) {
+  .contentWrapper {
+    /* Mobile navbar is fixed at the bottom, so add extra scrolling space to the bottom */
+    padding-bottom: 80px; 
+  }
+}
+
 /* All sections are full-width containers; inner components handle their own centering */
 .sectionHome,
 .sectionAbout,

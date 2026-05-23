@@ -1,0 +1,64 @@
+.container {
+  position: absolute;
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%;
+  pointer-events: none;
+  /* Ensure SVG centers perfectly inside the parent */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Base styles for all SVG text to perfectly match the DOM button text */
+.solidText, .strokeText, .strokeTextSecondary {
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.solidText {
+  fill: #fff;
+  /* Core glow matching primary active theme accent */
+  filter: drop-shadow(0 0 8px rgba(var(--accent-primary-rgb, 0, 240, 255), 0.8));
+}
+
+.strokeText {
+  fill: none;
+  stroke: var(--accent-primary-hex, #00f0ff);
+  stroke-width: 1.5px;
+  /* 15px lightning bolt, 80px gap before the next bolt */
+  stroke-dasharray: 15 80;
+  animation: traceText 2s linear infinite;
+  /* Neon aura around the primary lightning spark */
+  filter: drop-shadow(0 0 4px var(--accent-primary-hex, #00f0ff)) drop-shadow(0 0 8px var(--accent-primary-hex, #00f0ff));
+}
+
+.strokeTextSecondary {
+  fill: none;
+  stroke: var(--accent-secondary-hex, #ffffff);
+  stroke-width: 1px;
+  /* 8px inner core bolt, 90px gap */
+  stroke-dasharray: 8 90;
+  animation: traceTextSecondary 1.5s linear infinite reverse;
+  /* Glow matching secondary theme accent */
+  filter: drop-shadow(0 0 4px var(--accent-secondary-hex, #ffffff)) drop-shadow(0 0 8px var(--accent-secondary-hex, #ffffff));
+}
+
+/* Animate the dash offset to make the lightning travel along the precise curves of the letters */
+@keyframes traceText {
+  from { stroke-dashoffset: 95; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes traceTextSecondary {
+  from { stroke-dashoffset: 98; }
+  to { stroke-dashoffset: 0; }
+}

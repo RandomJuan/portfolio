@@ -129,6 +129,10 @@ export function usePortfolioNavigation(sectionsList: string[]) {
         if (diff > 2) diff -= 4;
         if (diff < -2) diff += 4;
         setRotationAngle(prev => prev - diff * 90);
+
+        // Update the browser URL hash dynamically to match the current scrolled section
+        const id = sectionsList[currentActiveIndex];
+        window.history.replaceState(null, '', `#${id}`);
       }
     };
 

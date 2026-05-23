@@ -8,7 +8,7 @@ import { contactData } from "@/lib/contactData";
 import { navBarData } from "@/lib/navbarData";
 
 import Fireflies from "@/components/Fireflies/Fireflies";
-import NavBarSection from "@/components/NavBarSection/NavBarSection";
+import Navigation from "@/components/Navigation/Navigation";
 import PresentationCard from "@/components/PresentationSection/PresentationSection";
 import AboutSection from "@/components/AboutSection/AboutSection";
 import ExperienceSection from "@/components/ExperienceSection/ExperienceSection";
@@ -20,7 +20,7 @@ function PortfolioCarousel() {
   const sectionsList = ["home", "about", "experience", "contact"];
   
   // Call modular custom navigation hook following Single Responsibility Principle (SOLID)
-  const { activeIndex, rotationAngle, navigateTo } = usePortfolioNavigation(sectionsList);
+  const { activeIndex, navigateTo } = usePortfolioNavigation(sectionsList);
 
   return (
     <main className={styles.mainContainer}>
@@ -43,11 +43,10 @@ function PortfolioCarousel() {
         </section>
       </div>
 
-      {/* Retro 3D Film Spool Navbar */}
-      <NavBarSection 
+      {/* Simple standard Navigation */}
+      <Navigation 
         navBarData={navBarData} 
         activeIndex={activeIndex}
-        rotationAngle={rotationAngle}
         onNavigate={navigateTo}
       />
 

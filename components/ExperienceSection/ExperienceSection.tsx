@@ -16,7 +16,8 @@ export default function ExperienceSection({ experienceData }: Props) {
     const section = sectionRef.current;
     if (!section) return;
 
-    const animatables = section.querySelectorAll<HTMLElement>("[data-animate]");
+    // Title and tech stack are animated via viewport intersection
+    const nonTimelineAnimatables = section.querySelectorAll<HTMLElement>(`.${styles.titleWrapper}, .${styles.techWrap} > [data-animate]`);
 
     const rootContainer = section.closest('.preview-viewport-container');
 
@@ -25,18 +26,20 @@ export default function ExperienceSection({ experienceData }: Props) {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             (entry.target as HTMLElement).classList.add("exp-visible");
-          } else if (rootContainer) {
-            // Only remove the class when in the navbar so it replays continuously while scrolling
-            (entry.target as HTMLElement).classList.remove("exp-visible");
+          } else {
+            // Reset and remove class if scrolled back up (element is below viewport bottom)
+            if (entry.boundingClientRect.top > window.innerHeight || rootContainer) {
+              (entry.target as HTMLElement).classList.remove("exp-visible");
+            }
           }
         });
       },
       { threshold: 0.1, rootMargin: rootContainer ? "0px" : "50px", root: rootContainer || null }
     );
 
-    animatables.forEach((el) => observer.observe(el));
+    nonTimelineAnimatables.forEach((el) => observer.observe(el));
     
-    // Scroll progress line logic
+    // Scroll progress line & kinetic item reveal logic
     const timelineWrapper = section.querySelector(`.${styles.timelineWrapper}`) as HTMLElement;
     
     const handleScroll = () => {
@@ -55,7 +58,23 @@ export default function ExperienceSection({ experienceData }: Props) {
       }
       
       // Update CSS variable for the height of the progress line
-      timelineWrapper.style.setProperty('--scroll-progress', `${progress}`);
+      timelineWrapper.style.setProperty('--scroll-progress', `${Math.max(0.001, progress)}`);
+
+      // Reveal timeline elements progressively as the scroll line reaches them, resetting on scroll-up
+      const items = timelineWrapper.querySelectorAll(`.${styles.timelineItem}`);
+      items.forEach((itemEl) => {
+        const itemRect = itemEl.getBoundingClientRect();
+        // Dot triggers when it reaches the 50% center mark of the viewport
+        if (itemRect.top <= windowHeight / 2 + 30) {
+          itemEl.querySelectorAll('[data-animate]').forEach(el => {
+            el.classList.add("exp-visible");
+          });
+        } else {
+          itemEl.querySelectorAll('[data-animate]').forEach(el => {
+            el.classList.remove("exp-visible");
+          });
+        }
+      });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -88,7 +107,7 @@ export default function ExperienceSection({ experienceData }: Props) {
         </div>
 
         {/* Timeline Section */}
-        <div className={styles.timelineWrapper}>
+        <div className={`${styles.timelineWrapper} timeline-wrapper-progress-marker`}>
           <div className={styles.centerLine}>
             <div className={styles.progressLine} />
           </div>
@@ -109,7 +128,7 @@ export default function ExperienceSection({ experienceData }: Props) {
                   {/* Timeline Center Dot */}
                   <div
                     data-animate="dot"
-                    style={{ transitionDelay: delay }}
+                    style={{ transitionDelay: '0ms' }}
                     className={styles.dot}
                   >
                     <div className={styles.dotInner} />
@@ -118,7 +137,7 @@ export default function ExperienceSection({ experienceData }: Props) {
                   {/* Content Card */}
                   <div
                     data-animate={cardDirection}
-                    style={{ transitionDelay: `${index * 120 + 80}ms` }}
+                    style={{ transitionDelay: '150ms' }}
                     className={`${styles.cardContainer} ${isEven ? styles.cardContainerRight : styles.cardContainerLeft}`}
                   >
                     <div className={`${styles.cardBody} group`}>
@@ -151,8 +170,8 @@ export default function ExperienceSection({ experienceData }: Props) {
             {experienceData.techStack.map((tech, idx) => (
               <div
                 key={idx}
-                data-animate="from-bottom"
-                style={{ transitionDelay: `${idx * 50}ms` }}
+                data-animate="wave"
+                style={{ transitionDelay: `${idx * 25}ms` }}
                 className={styles.techBadge}
               >
                 {tech}

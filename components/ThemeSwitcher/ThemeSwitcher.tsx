@@ -71,39 +71,33 @@ export default function ThemeSwitcher() {
 
   return (
     <div ref={ref} className={styles.container}>
-      <div className={styles.wrapper}>
-        <button
-          onClick={() => setOpen((v) => !v)}
-          className={`${styles.triggerButton} ${theme.mode === 'dark' ? styles.triggerDark : styles.triggerLight}`}
-          style={{ boxShadow: `0 4px 12px ${theme.accentHex}44` }}
-        >
-          <span className={styles.triggerLabel}>Theme</span>
-          <svg
-            className={`${styles.chevron} ${open ? styles.chevronOpen : ''}`}
-            fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-
-        <div
-          aria-hidden={!open}
-          className={`
-            ${styles.dropdown}
-            ${open ? styles.dropdownOpen : styles.dropdownClosed}
-            ${theme.mode === 'dark' ? styles.dropdownDark : styles.dropdownLight}
-          `}
-          style={{ boxShadow: `0 20px 40px ${theme.accentHex}22` }}
-        >
-          {themes.map((t) => (
-            <ThemePreviewCard
-              key={t.id}
-              t={t}
-              active={theme.id === t.id}
-              onSelect={() => { setThemeById(t.id); setOpen(false); }}
-            />
-          ))}
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className={styles.triggerButton}
+        style={{ background: theme.bgGradient, boxShadow: `0 0 10px ${theme.accentHex}66` }}
+        title="Change Theme"
+        aria-label="Change Theme"
+      >
+        <div className={styles.orbInner}>
+          <div className={styles.particle1} style={{ backgroundColor: `rgb(${theme.firefly.primary})` }} />
+          <div className={styles.particle2} style={{ backgroundColor: `rgb(${theme.firefly.secondary})` }} />
         </div>
+        <div className={styles.orbShadow} />
+        <div className={styles.orbHighlight} />
+      </button>
+
+      <div
+        aria-hidden={!open}
+        className={`${styles.dropdown} ${open ? styles.dropdownOpen : styles.dropdownClosed}`}
+      >
+        {themes.map((t) => (
+          <ThemePreviewCard
+            key={t.id}
+            t={t}
+            active={theme.id === t.id}
+            onSelect={() => { setThemeById(t.id); setOpen(false); }}
+          />
+        ))}
       </div>
     </div>
   );
@@ -114,26 +108,18 @@ function ThemePreviewCard({ t, active, onSelect }: { t: ThemeConfig; active: boo
     <button
       onClick={onSelect}
       title={t.id}
+      aria-label={`Select ${t.id} theme`}
       className={`${styles.previewCard} ${active ? styles.previewActive : styles.previewInactive}`}
       style={{
         background: t.bgGradient,
         borderColor: active ? t.accentHex : 'transparent',
-        boxShadow: active ? `0 0 12px ${t.accentHex}88` : 'none'
       }}
     >
-      <div className={styles.cardInner}>
-        <div
-          className={styles.firefly1}
-          style={{ backgroundColor: `rgb(${t.firefly.primary})`, boxShadow: `0 0 6px rgb(${t.firefly.primary})` }}
-        />
-        <div
-          className={styles.firefly2}
-          style={{ backgroundColor: `rgb(${t.firefly.secondary})`, boxShadow: `0 0 4px rgb(${t.firefly.secondary})` }}
-        />
+      <div className={styles.orbInner}>
+        <div className={styles.particle1} style={{ backgroundColor: `rgb(${t.firefly.primary})` }} />
+        <div className={styles.particle2} style={{ backgroundColor: `rgb(${t.firefly.secondary})` }} />
       </div>
-      {active && (
-        <div className={styles.activeRing} />
-      )}
+      <div className={styles.orbShadow} />
     </button>
   );
 }

@@ -78,7 +78,7 @@
   line-height: 1.25rem;
   text-transform: uppercase;
   letter-spacing: 0.3em;
-  color: #22d3ee;
+  color: var(--accent-hex);
   font-weight: 600;
   margin-bottom: 0.5rem;
 }

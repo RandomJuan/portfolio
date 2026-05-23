@@ -1,52 +1,103 @@
-# Interactive 3D Portfolio
+# My Portfolio
 
-Welcome to my personal portfolio! This project is a highly interactive, performance-focused web experience built with Next.js and standard CSS Modules. It features a unique 3D scroll-synchronized navigation reel, dynamic theming, and an immersive custom design system.
-
-## 🌟 Architecture & Technical Decisions
-
-Recently, I completed a major refactor of this codebase to prioritize **SOLID principles, modularity, and raw performance**. 
-
-### 1. Migrating to Standard CSS Modules
-To maintain strict separation of concerns and keep our components truly independent, I moved away from utility-based CSS frameworks (like Tailwind). Every component now has its own strictly scoped `.module.css` file. This means:
-- No global class name collisions.
-- Cleaner, semantic JSX.
-- Components are fully portable and encapsulated.
-
-### 2. Hardware-Accelerated 3D Scroll Synchronization
-One of the core features of this site is the **3D Navigation Reel**, which renders a live miniature version of the site as you scroll. 
-- To achieve buttery-smooth 60fps performance, the scroll synchronization bypasses React's render lifecycle completely. 
-- A custom `useScrollSync` hook hooks into the browser's native `requestAnimationFrame` and directly updates the `translateY` transforms on the DOM nodes. 
-- The 3D reel uses standard CSS `preserve-3d` and `perspective` combined with React state to handle navigation events instantly.
-
-### 3. Dynamic "Firefly" Theming System
-The site features a dynamic, glassmorphic theme switcher that alters CSS variables (`--accent-hex`, background colors, firefly particle colors) on the fly. 
-- Theme selections are injected globally using React Context.
-- The "fireflies" are a custom CSS animation ecosystem that drifts beautifully in the background, adapting its glow to your selected theme.
-
-## 🛠️ Project Structure
-
-The project is structured with scalability in mind:
-
-- `/components`: Highly cohesive, loosely coupled React components. Each folder contains the `.tsx` file and its dedicated `.module.css`.
-- `/hooks`: Custom React hooks (e.g., `useScrollSync`, `useViewportMetrics`) to keep our components clean and focus strictly on rendering.
-- `/lib`: Static data sources and configuration, making content updates trivial without touching the presentation logic.
-- `/types`: TypeScript interfaces ensuring type safety across the board.
-
-## 🚀 Getting Started
-
-If you'd like to run this locally:
-
-1. Clone the repository.
-2. Install dependencies:
-   ```bash
-   pnpm install
-   ```
-3. Run the development server:
-   ```bash
-   pnpm run dev
-   ```
-4. Open [http://localhost:3000](http://localhost:3000) and enjoy the experience!
+This is my personal portfolio website built with **Next.js**, **React 19**, and **TypeScript**. It showcases my work, skills, and contact details in a highly engaging, custom-themed environment. The site is designed to be visually rich and interactive, featuring custom fonts, responsive layouts, a drifting particle background, and a unique anime-style text-lightning effect.
 
 ---
 
-*Designed and engineered with a focus on aesthetics, modularity, and performance.*
+## Table of Contents
+* [Features](#features)
+* [Technologies Used](#technologies-used)
+* [Getting Started](#getting-started)
+  * [Prerequisites](#prerequisites)
+  * [Installation](#installation)
+  * [Running the Project](#running-the-project)
+* [Folder Structure](#folder-structure)
+* [License](#license)
+
+---
+
+## Features
+
+* **⚡ Active Tab Lightning Tracing**: Uses animated SVG path stroke animations (`stroke-dasharray` and `stroke-dashoffset`) paired with dynamic noise filters (`<feTurbulence>`) to trace the actual curves of active menu letters with a lively, organic anime lightning effect.
+* **✨ Ambient Particle Atmosphere**: A custom background system ("fireflies") that syncs dynamically with the active theme colors, drifting gently behind sections without affecting scrolling performance.
+* **🌗 Seamless Dynamic Theming**: Allows visitors to toggle between different styling vibes instantly using a global React Context theme switcher.
+* **📱 Jitter-Free Responsive Design**: Optimized across mobile, tablet, and desktop viewports. On desktop, the glassmorphic navbar sits fixed at the top, while on mobile it shifts to the bottom (`bottom: 3px`) with hardware acceleration (`transform: translateZ(0)`) to ensure comfortable thumb navigation and eliminate address bar scroll lag.
+* **🎨 Clean Modular CSS**: Replaced utility-class frameworks with strictly scoped **CSS Modules** for superior component encapsulation, readable semantic JSX, and style safety.
+* **🔡 Custom Typography**: Integrated local font variables via Next.js Google Fonts using `Geist` and `Geist_Mono` for clean, professional modern typography.
+* **📬 Direct Mail & Social Connections**: A beautiful interactive email contact card and responsive footer social links (LinkedIn, GitHub) for effortless outreach.
+
+---
+
+## Technologies Used
+
+* **Next.js 16**: The leading React framework utilizing the App Router for optimal rendering, routing, and search engine friendliness.
+* **React 19**: Leverages the latest improvements in React's component model and lifecycle.
+* **TypeScript**: Provides typed safety and structure across data models and layouts.
+* **CSS Modules**: Scoped Vanilla CSS styling, enabling high style reusability without class collision.
+* **React-Draggable**: Utilized for handling dynamic boundary and slider movements smoothly.
+* **Vercel (Deployment)**: Fully optimized hosting platform with high performance and automatic SSL.
+
+---
+
+## Getting Started
+
+To get a local copy of this project up and running on your system, follow these simple steps:
+
+### Prerequisites
+Before installing, make sure you have the following ready:
+* **Node.js**: Download and install the latest LTS version of [Node.js](https://nodejs.org/).
+* **pnpm** (Recommended): The project is pre-configured with a pnpm lockfile. You can install it globally via npm:
+  ```bash
+  npm install --global pnpm
+  ```
+  *(You can also use standard `npm` or `yarn` if preferred).*
+
+### Installation
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/RandomJuan/portfolio.git
+   cd portfolio
+   ```
+
+2. **Install project dependencies**:
+   ```bash
+   pnpm install
+   ```
+   *(If using npm, run `npm install`).*
+
+### Running the Project
+
+To launch the project in development mode:
+```bash
+pnpm run dev
+```
+Once started, open [http://localhost:3000](http://localhost:3000) in your web browser.
+
+To bundle the application for production deployment:
+```bash
+pnpm run build
+```
+
+To run the compiled production build locally:
+```bash
+pnpm run start
+```
+
+---
+
+## Folder Structure
+
+The code is clean, highly structured, and follows modern React and Next.js guidelines:
+
+* `📁 app/`: Contains page routes, dynamic layouts, metadata settings, and global styling overrides.
+* `📁 components/`: Reusable interface elements, organized by feature area (e.g. `Navigation`, `AboutSection`, `Fireflies`, `ThemeSwitcher`). Each directory houses its logic alongside a scoped `.module.css` file.
+* `📁 hooks/`: Custom utility hooks that separate state management and listener processes from components.
+* `📁 lib/`: Source files containing static content configurations, simplifying updates.
+* `📁 types/`: Dedicated TS type interfaces to guarantee structural reliability.
+
+---
+
+## License
+
+Distributed under the MIT License. See standard licenses for more information.

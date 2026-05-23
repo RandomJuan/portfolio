@@ -1,0 +1,97 @@
+.navWrapper {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+  padding: 1.5rem 1rem;
+  pointer-events: none; /* Let clicks pass through the wrapper */
+}
+
+/* Desktop: Top */
+@media (min-width: 768px) {
+  .navWrapper {
+    top: 0;
+    bottom: auto;
+  }
+}
+
+/* Mobile: Bottom */
+@media (max-width: 767px) {
+  .navWrapper {
+    bottom: 3px;
+    top: auto;
+    padding: 0 1rem; /* Only horizontal padding */
+    transform: translateZ(0);
+    will-change: transform;
+  }
+}
+
+.navContainer {
+  pointer-events: auto; /* Re-enable clicks on the actual navbar */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(16px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+}
+
+.navItem {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.6rem 1.25rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  overflow: visible; /* Let lightning spill out! */
+}
+
+.navItem:hover {
+  color: rgba(255, 255, 255, 0.95);
+  background: rgba(var(--accent-rgb, 255, 255, 255), 0.15);
+}
+
+.navItemActive {
+  color: #fff;
+  font-weight: 800;
+  background: transparent; /* No more giant pill background */
+  border: none;
+  box-shadow: none;
+  /* Subtle glow on the text so it matches the active theme's accent color */
+  text-shadow: 0 0 10px rgba(var(--accent-rgb, 0, 240, 255), 0.8), 0 0 20px rgba(var(--accent-rgb, 0, 240, 255), 1);
+  z-index: 10;
+  position: relative;
+  overflow: visible;
+}
+
+.label {
+  position: relative;
+  z-index: 20;
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 0 0.25rem;
+}
+
+@media (max-width: 480px) {
+  .navItem {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+}

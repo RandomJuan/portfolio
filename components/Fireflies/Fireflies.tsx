@@ -89,11 +89,21 @@ export default function Fireflies({ isGlobal = false }: { isGlobal?: boolean }) 
 
       // Populate ecosystem lazily only if not already spawned
       if (firefliesRef.current.length === 0) {
-        const ecosystemSize = 200;
-        const newFlies = Array.from({ length: ecosystemSize }, () => 
-          new Firefly(canvasBg.width, canvasBg.height, theme.firefly.primary, theme.firefly.secondary)
-        );
-        firefliesRef.current.push(...newFlies);
+        if (isGlobal) {
+          const ecosystemSize = 200;
+          const newFlies = Array.from({ length: ecosystemSize }, () => 
+            new Firefly(canvasBg.width, canvasBg.height, theme.firefly.primary, theme.firefly.secondary)
+          );
+          firefliesRef.current.push(...newFlies);
+        } else {
+          // Lazily bind to global background firefly ecosystem array if already initialized
+          if (window.multiEcosystemRegistry) {
+            const globalEco = Object.values(window.multiEcosystemRegistry).find(e => e.layout === 'fixed');
+            if (globalEco && globalEco.fireflies.length > 0) {
+              firefliesRef.current = globalEco.fireflies;
+            }
+          }
+        }
       }
     };
 
@@ -128,8 +138,18 @@ export default function Fireflies({ isGlobal = false }: { isGlobal?: boolean }) 
       ctxBg.clearRect(0, 0, canvasBg.width, canvasBg.height);
       ctxFg.clearRect(0, 0, canvasFg.width, canvasFg.height);
 
+      // Lazily hook to global background array to mirror animation in real-time
+      if (!isGlobal && firefliesRef.current.length === 0 && window.multiEcosystemRegistry) {
+        const globalEco = Object.values(window.multiEcosystemRegistry).find(e => e.layout === 'fixed');
+        if (globalEco && globalEco.fireflies.length > 0) {
+          firefliesRef.current = globalEco.fireflies;
+        }
+      }
+
       for (const fly of firefliesRef.current) {
-        fly.updateWander(canvasBg.width, canvasBg.height, groupTargets[fly.groupId], firefliesRef.current);
+        if (isGlobal) {
+          fly.updateWander(canvasBg.width, canvasBg.height, groupTargets[fly.groupId], firefliesRef.current);
+        }
 
         if (fly.z > 400) {
           fly.draw(ctxBg, canvasBg.width, canvasBg.height);
