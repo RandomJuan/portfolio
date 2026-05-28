@@ -5,136 +5,122 @@
 }
 
 .triggerButton {
-  position: relative;
-  width: 1.6rem;
-  height: 1.6rem;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 0;
+  gap: 0.35rem;
+  background: transparent;
+  border: none;
+  padding: 0.4rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .triggerButton:hover {
-  transform: scale(1.1);
-  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
 }
 
-.triggerButton:active {
-  transform: scale(0.95);
+.triggerIcon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.chevron {
+  transition: transform 0.3s ease;
+  opacity: 0.6;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
 }
 
 .dropdown {
   position: absolute;
   right: 0;
-  top: calc(100% + 12px);
-  width: max-content;
-  background: rgba(15, 23, 42, 0.85);
+  bottom: calc(100% + 12px); /* Opens upwards because nav is at bottom */
+  width: 160px;
+  background: rgba(15, 23, 42, 0.95);
   backdrop-filter: blur(20px) saturate(1.2);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 9999px;
-  padding: 0.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0.5rem;
   display: flex;
-  gap: 0.35rem;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  transform-origin: top right;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-}
-
-@media (max-width: 767px) {
-  .dropdown {
-    top: auto;
-    bottom: calc(100% + 12px);
-    transform-origin: bottom right;
-  }
+  flex-direction: column;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: bottom right;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .dropdownOpen {
   opacity: 1;
-  transform: scale(1);
+  transform: scale(1) translateY(0);
   pointer-events: auto;
 }
 
 .dropdownClosed {
   opacity: 0;
-  transform: scale(0.9);
+  transform: scale(0.95) translateY(10px);
   pointer-events: none;
+}
+
+.dropdownHeader {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.4);
+  padding: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.dropdownList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .previewCard {
-  position: relative;
-  flex-shrink: 0;
-  overflow: hidden;
-  width: 1.35rem;
-  height: 1.35rem;
-  border-radius: 50%;
-  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  padding: 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: inherit;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.previewCard:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
 }
 
 .previewActive {
-  border-color: rgba(255, 255, 255, 0.8);
-  transform: scale(1.15);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-weight: 500;
 }
 
-.previewInactive:hover {
-  transform: scale(1.15);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.orbInner {
-  position: absolute;
-  inset: 0;
+.previewColor {
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
 }
 
-.orbHighlight {
-  position: absolute;
-  inset: 1px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  pointer-events: none;
+.checkIcon {
+  margin-left: auto;
+  opacity: 0.8;
 }
 
-.orbShadow {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4), inset 0 -3px 6px rgba(0, 0, 0, 0.5);
-  pointer-events: none;
-}
 
-.particle1 {
-  position: absolute;
-  top: 15%; left: 15%;
-  width: 30%; height: 30%;
-  border-radius: 50%;
-  filter: blur(1.5px);
-  animation: float1 3s ease-in-out infinite alternate;
-}
-
-.particle2 {
-  position: absolute;
-  bottom: 15%; right: 15%;
-  width: 35%; height: 35%;
-  border-radius: 50%;
-  filter: blur(2px);
-  animation: float2 4s ease-in-out infinite alternate;
-}
-
-@keyframes float1 {
-  0% { transform: translate(0, 0) scale(1); opacity: 0.8; }
-  100% { transform: translate(25%, 25%) scale(1.3); opacity: 1; }
-}
-
-@keyframes float2 {
-  0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
-  100% { transform: translate(-25%, -25%) scale(1.4); opacity: 0.9; }
-}

@@ -1,9 +1,9 @@
 import { ThemeConfig } from '@/types/theme';
 
 export const themes: ThemeConfig[] = [
-  // ─────────────────────────── POSITION 1: abyss (formerly 2nd) ─────────────────────────────
+  // ─────────────────────────── POSITION 1: deep-blue (formerly abyss) ─────────────────────────────
   {
-    id: 'abyss',
+    id: 'deep-blue',
     mode: 'dark',
     background: '#000000',
     bgGradient:
@@ -16,9 +16,9 @@ export const themes: ThemeConfig[] = [
     accentHex: '#60a5fa',
     textColor: 'text-white',
   },
-  // ─────────────────────────── POSITION 2: light-black (formerly 3rd) ────────────────────────
+  // ─────────────────────────── POSITION 2: clean-white (formerly light-black) ────────────────────────
   {
-    id: 'light-black',
+    id: 'clean-white',
     mode: 'light',
     background: '#ffffff',
     bgGradient:
@@ -31,9 +31,9 @@ export const themes: ThemeConfig[] = [
     accentHex: '#1e293b',
     textColor: 'text-slate-900',
   },
-  // ─────────────────────────── POSITION 3: neon-forest (formerly 4th) ────────────────────────
+  // ─────────────────────────── POSITION 3: deep-green (formerly neon-forest) ────────────────────────
   {
-    id: 'neon-forest',
+    id: 'deep-green',
     mode: 'dark',
     background: '#000000',
     bgGradient:
@@ -46,9 +46,9 @@ export const themes: ThemeConfig[] = [
     accentHex: '#4ade80',
     textColor: 'text-white',
   },
-  // ─────────────────────────── POSITION 4: light-lava (formerly 5th) ─────────────────────────
+  // ─────────────────────────── POSITION 4: bright-orange (formerly light-lava) ─────────────────────────
   {
-    id: 'light-lava',
+    id: 'bright-orange',
     mode: 'light',
     background: '#ffffff',
     bgGradient:
@@ -61,9 +61,9 @@ export const themes: ThemeConfig[] = [
     accentHex: '#f97316',
     textColor: 'text-slate-900',
   },
-  // ─────────────────────────── POSITION 5: cyber-reef (formerly 6th) ─────────────────────────
+  // ─────────────────────────── POSITION 5: cyber-cyan (formerly cyber-reef) ─────────────────────────
   {
-    id: 'cyber-reef',
+    id: 'cyber-cyan',
     mode: 'dark',
     background: '#000000',
     bgGradient:
@@ -76,9 +76,9 @@ export const themes: ThemeConfig[] = [
     accentHex: '#22d3ee',
     textColor: 'text-white',
   },
-  // ─────────────────────────── POSITION 6: light-mixed (formerly 1st) ─────────────────────────
+  // ─────────────────────────── POSITION 6: amber-white (formerly light-mixed) ─────────────────────────
   {
-    id: 'light-mixed',
+    id: 'amber-white',
     mode: 'light',
     background: '#ffffff',
     bgGradient:
@@ -93,4 +93,4 @@ export const themes: ThemeConfig[] = [
   },
 ];
 
-export const defaultTheme = themes[0];
+export const defaultTheme = themes.find(t => t.id === 'bright-orange') || themes[0];

@@ -24,7 +24,7 @@ export default function ThemeSwitcher() {
 
   const triggerAutoHide = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => setOpen(false), 500);
+    timeoutRef.current = setTimeout(() => setOpen(false), 2000);
   };
 
   const currentThemeIdRef = useRef(theme.id);
@@ -40,13 +40,9 @@ export default function ThemeSwitcher() {
       let nextIndex = currentIndex;
       const key = e.key.toLowerCase();
       const length = themes.length;
-      if (key === 'w') {
-        nextIndex = (currentIndex - 2 + length) % length;
-      } else if (key === 's') {
-        nextIndex = (currentIndex + 2) % length;
-      } else if (key === 'a') {
+      if (key === 'w' || key === 'a') {
         nextIndex = (currentIndex - 1 + length) % length;
-      } else if (key === 'd') {
+      } else if (key === 's' || key === 'd') {
         nextIndex = (currentIndex + 1) % length;
       } else if (key === 'enter' || key === 'escape') {
         setOpen(false);
@@ -74,30 +70,33 @@ export default function ThemeSwitcher() {
       <button
         onClick={() => setOpen((v) => !v)}
         className={styles.triggerButton}
-        style={{ background: theme.bgGradient, boxShadow: `0 0 10px ${theme.accentHex}66` }}
         title="Change Theme"
         aria-label="Change Theme"
       >
-        <div className={styles.orbInner}>
-          <div className={styles.particle1} style={{ backgroundColor: `rgb(${theme.firefly.primary})` }} />
-          <div className={styles.particle2} style={{ backgroundColor: `rgb(${theme.firefly.secondary})` }} />
-        </div>
-        <div className={styles.orbShadow} />
-        <div className={styles.orbHighlight} />
+        <div className={styles.triggerIcon} style={{ background: theme.accentHex }} />
+        <svg 
+          className={`${styles.chevron} ${open ? styles.chevronOpen : ''}`} 
+          width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+        >
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
       </button>
 
       <div
         aria-hidden={!open}
         className={`${styles.dropdown} ${open ? styles.dropdownOpen : styles.dropdownClosed}`}
       >
-        {themes.map((t) => (
-          <ThemePreviewCard
-            key={t.id}
-            t={t}
-            active={theme.id === t.id}
-            onSelect={() => { setThemeById(t.id); setOpen(false); }}
-          />
-        ))}
+        <div className={styles.dropdownHeader}>Select Theme</div>
+        <div className={styles.dropdownList}>
+          {themes.map((t) => (
+            <ThemePreviewCard
+              key={t.id}
+              t={t}
+              active={theme.id === t.id}
+              onSelect={() => { setThemeById(t.id); setOpen(false); }}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -107,19 +106,15 @@ function ThemePreviewCard({ t, active, onSelect }: { t: ThemeConfig; active: boo
   return (
     <button
       onClick={onSelect}
-      title={t.id}
-      aria-label={`Select ${t.id} theme`}
       className={`${styles.previewCard} ${active ? styles.previewActive : styles.previewInactive}`}
-      style={{
-        background: t.bgGradient,
-        borderColor: active ? t.accentHex : 'transparent',
-      }}
     >
-      <div className={styles.orbInner}>
-        <div className={styles.particle1} style={{ backgroundColor: `rgb(${t.firefly.primary})` }} />
-        <div className={styles.particle2} style={{ backgroundColor: `rgb(${t.firefly.secondary})` }} />
-      </div>
-      <div className={styles.orbShadow} />
+      <div className={styles.previewColor} style={{ background: t.accentHex }} />
+      <span className={styles.previewName}>{t.id.charAt(0).toUpperCase() + t.id.slice(1)}</span>
+      {active && (
+        <svg className={styles.checkIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      )}
     </button>
   );
 }

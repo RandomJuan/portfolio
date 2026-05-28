@@ -1,6 +1,5 @@
 import { NavBarData } from "@/types/navbar";
 import ThemeSwitcher from "@/components/ThemeSwitcher/ThemeSwitcher";
-import TextLightning from "./TextLightning";
 import styles from "./Navigation.module.css";
 
 type Props = {
@@ -21,13 +20,9 @@ export default function Navigation({ navBarData, activeIndex, onNavigate }: Prop
               onClick={() => onNavigate(index)}
               className={`${styles.navItem} ${isActive ? styles.navItemActive : ''}`}
             >
-              <span 
-                className={styles.label} 
-                style={{ opacity: isActive ? 0 : 1 }}
-              >
+              <span className={styles.label}>
                 {item.label}
               </span>
-              {isActive && <TextLightning label={item.label} />}
             </button>
           );
         })}

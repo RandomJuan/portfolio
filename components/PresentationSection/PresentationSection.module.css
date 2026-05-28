@@ -5,6 +5,7 @@
   align-items: center;
   justify-content: center;
   background-color: transparent;
+  padding-bottom: 10vh; /* Pushes the vertically centered content higher */
 }
 
 .contentWrapper {
@@ -21,28 +22,32 @@
 }
 
 .roleBadge {
-  display: inline-flex;
+  display: inline-block;
   border-radius: 9999px;
   background-color: var(--nav-bg);
   border: 1px solid var(--foreground);
-  box-shadow: 0 0 6px color-mix(in srgb, var(--foreground) 40%, transparent);
-  padding: 0.25rem 1rem;
+  padding: 0.35rem 1.2rem;
   font-size: 0.75rem;
   line-height: 1rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
+  font-weight: 300;
+  text-indent: 0.15em; /* Compensates for letter-spacing padding on the right without shifting the container */
+  margin-bottom: -0.75rem; /* Pulls it closer to the heading below, counteracting the wrapper's 1rem gap */
 }
 
 .nameHeading {
   font-size: 2.25rem;
   line-height: 2.5rem;
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 .description {
   font-size: 1rem;
   line-height: 1.5rem;
-  opacity: 0.8;
+  opacity: 0.7;
+  font-weight: 300;
 }
 
 @media (min-width: 768px) {

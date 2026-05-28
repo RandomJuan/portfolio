@@ -1,10 +1,10 @@
 export type ThemeId =
-  | 'abyss'
-  | 'neon-forest'
-  | 'cyber-reef'
-  | 'light-black'
-  | 'light-lava'
-  | 'light-mixed';
+  | 'deep-blue'
+  | 'deep-green'
+  | 'cyber-cyan'
+  | 'clean-white'
+  | 'bright-orange'
+  | 'amber-white';
 
 export interface FireflyColor {
   /** Two RGB strings used to randomly pick a glow color per firefly */

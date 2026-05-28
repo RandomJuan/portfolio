@@ -2,35 +2,23 @@
   position: fixed;
   width: 100%;
   left: 0;
+  bottom: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 50;
-  padding: 1.5rem 1rem;
-  pointer-events: none; /* Let clicks pass through the wrapper */
+  padding: 0 1rem;
+  pointer-events: none;
 }
 
-/* Desktop: Top */
-@media (min-width: 768px) {
-  .navWrapper {
-    top: 0;
-    bottom: auto;
-  }
-}
-
-/* Mobile: Bottom */
 @media (max-width: 767px) {
   .navWrapper {
-    bottom: 3px;
-    top: auto;
-    padding: 0 1rem; /* Only horizontal padding */
-    transform: translateZ(0);
-    will-change: transform;
+    bottom: 1rem;
   }
 }
 
 .navContainer {
-  pointer-events: auto; /* Re-enable clicks on the actual navbar */
+  pointer-events: auto;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -56,30 +44,43 @@
   border-radius: 9999px;
   cursor: pointer;
   transition: all 0.2s ease;
-  overflow: visible; /* Let lightning spill out! */
 }
 
 .navItem:hover {
   color: rgba(255, 255, 255, 0.95);
-  background: rgba(var(--accent-rgb, 255, 255, 255), 0.15);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .navItemActive {
   color: #fff;
-  font-weight: 800;
-  background: transparent; /* No more giant pill background */
+  font-weight: 600;
+  background: transparent;
   border: none;
   box-shadow: none;
-  /* Subtle glow on the text so it matches the active theme's accent color */
-  text-shadow: 0 0 10px rgba(var(--accent-rgb, 0, 240, 255), 0.8), 0 0 20px rgba(var(--accent-rgb, 0, 240, 255), 1);
   z-index: 10;
-  position: relative;
-  overflow: visible;
 }
 
 .label {
   position: relative;
   z-index: 20;
+}
+
+.label::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent-hex, #ffffff);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  transform-origin: center;
+  border-radius: 2px;
+}
+
+.navItemActive .label::after {
+  transform: scaleX(1);
 }
 
 .divider {

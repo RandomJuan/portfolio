@@ -65,7 +65,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     
     // Inject accent theme variables
     const rgb = hexToRgb(theme.accentHex);
-    const lightTextAccents = ['light-black', 'light-lava', 'light-mixed'];
+    const lightTextAccents = ['clean-white', 'bright-orange', 'amber-white'];
     const accentContrast = lightTextAccents.includes(theme.id) ? '#ffffff' : '#0f172a';
     
     document.documentElement.style.setProperty('--accent-hex', theme.accentHex);
