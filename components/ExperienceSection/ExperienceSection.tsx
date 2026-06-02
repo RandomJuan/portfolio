@@ -38,25 +38,25 @@ export default function ExperienceSection({ experienceData }: Props) {
     );
 
     nonTimelineAnimatables.forEach((el) => observer.observe(el));
-    
+
     // Scroll progress line & kinetic item reveal logic
     const timelineWrapper = section.querySelector(`.${styles.timelineWrapper}`) as HTMLElement;
-    
+
     const handleScroll = () => {
       if (!timelineWrapper) return;
       const rect = timelineWrapper.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      
+
       // Calculate how much the timeline has entered the viewport
       // It starts when the top of timelineWrapper is at 50% of the screen
       // It ends when the bottom of timelineWrapper is at 50% of the screen
       const start = rect.top - windowHeight / 2;
-      
+
       let progress = 0;
       if (start < 0) {
         progress = Math.min(1, Math.max(0, -start / rect.height));
       }
-      
+
       // Update CSS variable for the height of the progress line
       timelineWrapper.style.setProperty('--scroll-progress', `${Math.max(0.001, progress)}`);
 

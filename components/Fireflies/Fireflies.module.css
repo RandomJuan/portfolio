@@ -9,6 +9,11 @@
   z-index: 0;
   overflow: hidden;
   transition: background 0.6s ease;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 .containerGlobal {
@@ -28,6 +33,10 @@
   z-index: 0;
   pointer-events: none;
   transition: background 0.6s ease;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .canvasBg {

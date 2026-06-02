@@ -23,17 +23,23 @@
 @media (max-width: 767px) {
   .contentWrapper {
     /* Mobile navbar is fixed at the bottom, so add extra scrolling space to the bottom */
-    padding-bottom: 80px; 
+    padding-bottom: 5rem; 
   }
 }
 
 /* All sections are full-width containers; inner components handle their own centering */
 .sectionHome,
 .sectionAbout,
-.sectionExperience,
-.sectionContact {
+.sectionExperience {
   position: relative;
   z-index: 10;
   width: 100%;
   min-height: 100vh;
+}
+
+/* Contact section sizes to its content so the page ends cleanly at the footer */
+.sectionContact {
+  position: relative;
+  z-index: 10;
+  width: 100%;
 }

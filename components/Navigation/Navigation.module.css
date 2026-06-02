@@ -14,6 +14,7 @@
 @media (max-width: 767px) {
   .navWrapper {
     bottom: 1rem;
+    padding: 0 1.25rem;
   }
 }
 
