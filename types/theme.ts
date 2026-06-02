@@ -14,6 +14,8 @@ export interface FireflyColor {
 
 export interface ThemeConfig {
   id: ThemeId;
+  /** Evocative display name for the UI (e.g., Abyss, Noir) */
+  displayName: string;
   /** Whether the background is dark or light — used by UI chrome */
   mode: 'dark' | 'light';
   /** CSS value for the body / canvas background (gradient or solid) */

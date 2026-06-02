@@ -3,7 +3,7 @@
 }
 
 :root {
-  --background: #bec6e6; /* Deep blue/slate */
+  --background: #ffe3e3; /* Matches default bright-orange theme edge */
   --foreground: #f8fafc;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -28,7 +28,7 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   position: relative;
-  transition: background-color 0.5s ease, color 0.5s ease;
+  transition: background 0.5s ease, color 0.5s ease;
   font-family: var(--font-sans), sans-serif;
 }
 

@@ -13,11 +13,11 @@
   transform: translateZ(0);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  will-change: transform;
 }
 
 .containerGlobal {
   position: fixed;
+  contain: layout style paint;
 }
 
 .containerLocal {
@@ -68,4 +68,16 @@
   mix-blend-mode: screen;
   transform: translate3d(0, 0, 0);
   will-change: transform;
+}
+
+/* On mobile, disable expensive blend mode and will-change to prevent flicker during scroll */
+@media (max-width: 767px) {
+  .canvasBg,
+  .canvasFg {
+    will-change: auto;
+  }
+
+  .canvasFg {
+    mix-blend-mode: normal;
+  }
 }

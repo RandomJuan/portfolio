@@ -4,6 +4,7 @@ export const themes: ThemeConfig[] = [
   // ─────────────────────────── POSITION 1: deep-blue (formerly abyss) ─────────────────────────────
   {
     id: 'deep-blue',
+    displayName: 'Abyss',
     mode: 'dark',
     background: '#000000',
     bgGradient:
@@ -19,6 +20,7 @@ export const themes: ThemeConfig[] = [
   // ─────────────────────────── POSITION 2: clean-white (formerly light-black) ────────────────────────
   {
     id: 'clean-white',
+    displayName: 'Noir',
     mode: 'light',
     background: '#ffffff',
     bgGradient:
@@ -34,6 +36,7 @@ export const themes: ThemeConfig[] = [
   // ─────────────────────────── POSITION 3: deep-green (formerly neon-forest) ────────────────────────
   {
     id: 'deep-green',
+    displayName: 'Neon',
     mode: 'dark',
     background: '#000000',
     bgGradient:
@@ -49,6 +52,7 @@ export const themes: ThemeConfig[] = [
   // ─────────────────────────── POSITION 4: bright-orange (formerly light-lava) ─────────────────────────
   {
     id: 'bright-orange',
+    displayName: 'Ember',
     mode: 'light',
     background: '#ffffff',
     bgGradient:
@@ -64,6 +68,7 @@ export const themes: ThemeConfig[] = [
   // ─────────────────────────── POSITION 5: cyber-cyan (formerly cyber-reef) ─────────────────────────
   {
     id: 'cyber-cyan',
+    displayName: 'Reef',
     mode: 'dark',
     background: '#000000',
     bgGradient:
@@ -79,6 +84,7 @@ export const themes: ThemeConfig[] = [
   // ─────────────────────────── POSITION 6: amber-white (formerly light-mixed) ─────────────────────────
   {
     id: 'amber-white',
+    displayName: 'Gilt',
     mode: 'light',
     background: '#ffffff',
     bgGradient:

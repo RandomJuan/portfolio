@@ -22,8 +22,7 @@
 
 @media (max-width: 767px) {
   .contentWrapper {
-    /* Mobile navbar is fixed at the bottom, so add extra scrolling space to the bottom */
-    padding-bottom: 5rem; 
+    padding-bottom: 0; 
   }
 }
 

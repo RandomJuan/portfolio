@@ -86,7 +86,12 @@ export default function ThemeSwitcher() {
         aria-hidden={!open}
         className={`${styles.dropdown} ${open ? styles.dropdownOpen : styles.dropdownClosed}`}
       >
-        <div className={styles.dropdownHeader}>Select Theme</div>
+        <div className={styles.dropdownHeader}>
+          <span>THEME</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.5 }}>
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+        </div>
         <div className={styles.dropdownList}>
           {themes.map((t) => (
             <ThemePreviewCard
@@ -103,13 +108,16 @@ export default function ThemeSwitcher() {
 }
 
 function ThemePreviewCard({ t, active, onSelect }: { t: ThemeConfig; active: boolean; onSelect: () => void }) {
+  // Create a richer gradient orb using the theme's firefly colors
+  const gradient = `radial-gradient(circle at 30% 30%, rgb(${t.firefly.primary}), rgb(${t.firefly.secondary}))`;
+  
   return (
     <button
       onClick={onSelect}
-      className={`${styles.previewCard} ${active ? styles.previewActive : styles.previewInactive}`}
+      className={`${styles.previewCard} ${active ? styles.previewActive : ''}`}
     >
-      <div className={styles.previewColor} style={{ background: t.accentHex }} />
-      <span className={styles.previewName}>{t.id.charAt(0).toUpperCase() + t.id.slice(1)}</span>
+      <div className={styles.previewColor} style={{ background: gradient }} />
+      <span className={styles.previewName}>{t.displayName}</span>
       {active && (
         <svg className={styles.checkIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="20 6 9 17 4 12"></polyline>

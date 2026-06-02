@@ -107,6 +107,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     document.body.style.background = theme.bgGradient;
     // Also apply it to html so the entire overscroll area matches
     document.documentElement.style.background = theme.bgGradient;
+    // Sync the CSS variable so background-color fallback also matches
+    document.documentElement.style.setProperty('--background', theme.background);
     
     // Clean up any residual Tailwind classes
     document.body.classList.remove('text-white', 'text-slate-900');
