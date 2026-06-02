@@ -52,6 +52,8 @@
   pointer-events: none;
   transform: translate3d(0, 0, 0);
   will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .canvasFg {
@@ -68,15 +70,12 @@
   mix-blend-mode: screen;
   transform: translate3d(0, 0, 0);
   will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
-/* On mobile, disable expensive blend mode and will-change to prevent flicker during scroll */
+/* On mobile, disable expensive blend mode to prevent flicker during scroll */
 @media (max-width: 767px) {
-  .canvasBg,
-  .canvasFg {
-    will-change: auto;
-  }
-
   .canvasFg {
     mix-blend-mode: normal;
   }
