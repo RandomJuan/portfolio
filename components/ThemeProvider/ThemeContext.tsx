@@ -14,12 +14,16 @@ interface ThemeContextValue {
   theme: ThemeConfig;
   setThemeById: (id: ThemeId) => void;
   themes: ThemeConfig[];
+  effectStyle: 'fireflies' | 'beam';
+  setEffectStyle: (style: 'fireflies' | 'beam') => void;
 }
 
 const ThemeContext = createContext<ThemeContextValue>({
   theme: defaultTheme,
   setThemeById: () => {},
   themes,
+  effectStyle: 'fireflies',
+  setEffectStyle: () => {},
 });
 
 function hexToRgb(hex: string): string {
@@ -43,15 +47,31 @@ function rgbToHex(rgbStr: string): string {
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<ThemeConfig>(defaultTheme);
+  const [effectStyle, setEffectStyleState] = useState<'fireflies' | 'beam'>('fireflies');
 
   // Persist selection in localStorage across page loads
   useEffect(() => {
-    const stored = localStorage.getItem('portfolio-theme') as ThemeId | null;
-    if (stored) {
-      const found = themes.find((t) => t.id === stored);
+    const storedTheme = localStorage.getItem('portfolio-theme') as ThemeId | null;
+    if (storedTheme) {
+      const found = themes.find((t) => t.id === storedTheme);
       // eslint-disable-next-line react-hooks/set-state-in-effect
       if (found) setTheme(found);
     }
+    
+    const storedEffect = localStorage.getItem('portfolio-effect') as 'particles' | 'fireflies' | 'beam' | null;
+    if (storedEffect) {
+      if (storedEffect === 'particles') {
+        setEffectStyleState('fireflies');
+        localStorage.setItem('portfolio-effect', 'fireflies');
+      } else {
+        setEffectStyleState(storedEffect);
+      }
+    }
+  }, []);
+
+  const setEffectStyle = useCallback((style: 'fireflies' | 'beam') => {
+    setEffectStyleState(style);
+    localStorage.setItem('portfolio-effect', style);
   }, []);
 
   // Apply body text color and background dynamically
@@ -103,11 +123,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.style.setProperty('--accent-secondary-hex', secondaryHex);
     document.documentElement.style.setProperty('--accent-secondary-rgb', secondaryRgb);
     
-    // Set the body background to match the theme gradient to prevent overscroll gaps on mobile
-    document.body.style.background = theme.bgGradient;
-    // Also apply it to html so the entire overscroll area matches
-    document.documentElement.style.background = theme.bgGradient;
-    // Sync the CSS variable so background-color fallback also matches
+    // Set the body background strictly to the solid base color. 
+    // WARNING: Do not set to bgGradient, as it causes massive distorted duplicates on tall scroll areas.
+    document.body.style.background = theme.background;
+    document.documentElement.style.background = theme.background;
     document.documentElement.style.setProperty('--background', theme.background);
     
     // Clean up any residual Tailwind classes
@@ -122,7 +141,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <ThemeContext.Provider value={{ theme, setThemeById, themes }}>
+    <ThemeContext.Provider value={{ theme, setThemeById, themes, effectStyle, setEffectStyle }}>
       {children}
     </ThemeContext.Provider>
   );

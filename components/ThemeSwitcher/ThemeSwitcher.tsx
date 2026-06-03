@@ -6,7 +6,7 @@ import { ThemeConfig } from '@/types/theme';
 import styles from './ThemeSwitcher.module.css';
 
 export default function ThemeSwitcher() {
-  const { theme, setThemeById, themes } = useTheme();
+  const { theme, setThemeById, themes, effectStyle, setEffectStyle } = useTheme();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -73,7 +73,23 @@ export default function ThemeSwitcher() {
         title="Change Theme"
         aria-label="Change Theme"
       >
-        <div className={styles.triggerIcon} style={{ background: theme.accentHex }} />
+        {effectStyle === 'beam' ? (
+          <svg className={styles.beamIcon} width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="beamIconGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="rgb(var(--accent-primary-rgb))" />
+                <stop offset="50%" stopColor="#ffffff" />
+                <stop offset="100%" stopColor="rgb(var(--accent-secondary-rgb))" />
+              </linearGradient>
+            </defs>
+            <line x1="4" y1="20" x2="20" y2="4" stroke="url(#beamIconGrad)" strokeWidth="4" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <div 
+            className={styles.triggerIcon} 
+            style={{ background: `radial-gradient(circle at 30% 30%, rgb(var(--accent-primary-rgb)), rgb(var(--accent-secondary-rgb)))` }} 
+          />
+        )}
         <svg 
           className={`${styles.chevron} ${open ? styles.chevronOpen : ''}`} 
           width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
@@ -88,9 +104,20 @@ export default function ThemeSwitcher() {
       >
         <div className={styles.dropdownHeader}>
           <span>THEME</span>
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.5 }}>
-            <polyline points="18 15 12 9 6 15"></polyline>
-          </svg>
+          <div className={styles.effectToggle}>
+            <button 
+              className={`${styles.effectBtn} ${effectStyle === 'fireflies' ? styles.effectBtnActive : ''}`}
+              onClick={(e) => { e.stopPropagation(); setEffectStyle('fireflies'); }}
+            >
+              FIREFLIES
+            </button>
+            <button 
+              className={`${styles.effectBtn} ${effectStyle === 'beam' ? styles.effectBtnActive : ''}`}
+              onClick={(e) => { e.stopPropagation(); setEffectStyle('beam'); }}
+            >
+              BEAM
+            </button>
+          </div>
         </div>
         <div className={styles.dropdownList}>
           {themes.map((t) => (
@@ -98,6 +125,7 @@ export default function ThemeSwitcher() {
               key={t.id}
               t={t}
               active={theme.id === t.id}
+              effectStyle={effectStyle}
               onSelect={() => { setThemeById(t.id); setOpen(false); }}
             />
           ))}
@@ -107,7 +135,7 @@ export default function ThemeSwitcher() {
   );
 }
 
-function ThemePreviewCard({ t, active, onSelect }: { t: ThemeConfig; active: boolean; onSelect: () => void }) {
+function ThemePreviewCard({ t, active, effectStyle, onSelect }: { t: ThemeConfig; active: boolean; effectStyle: 'fireflies' | 'beam'; onSelect: () => void }) {
   // Create a richer gradient orb using the theme's firefly colors
   const gradient = `radial-gradient(circle at 30% 30%, rgb(${t.firefly.primary}), rgb(${t.firefly.secondary}))`;
   
@@ -116,7 +144,24 @@ function ThemePreviewCard({ t, active, onSelect }: { t: ThemeConfig; active: boo
       onClick={onSelect}
       className={`${styles.previewCard} ${active ? styles.previewActive : ''}`}
     >
-      <div className={styles.previewColor} style={{ background: gradient }} />
+      {effectStyle === 'beam' ? (
+        <svg 
+          className={styles.previewColor} 
+          style={{ background: 'transparent', border: 'none', borderRadius: '0', boxShadow: 'none', display: 'block' }}
+          width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <linearGradient id={`beamIconGrad-${t.id}`} x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor={`rgb(${t.firefly.primary})`} />
+              <stop offset="50%" stopColor="#ffffff" />
+              <stop offset="100%" stopColor={`rgb(${t.firefly.secondary})`} />
+            </linearGradient>
+          </defs>
+          <line x1="3" y1="21" x2="21" y2="3" stroke={`url(#beamIconGrad-${t.id})`} strokeWidth="5.5" strokeLinecap="round" />
+        </svg>
+      ) : (
+        <div className={styles.previewColor} style={{ background: gradient }} />
+      )}
       <span className={styles.previewName}>{t.displayName}</span>
       {active && (
         <svg className={styles.checkIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

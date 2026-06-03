@@ -176,4 +176,49 @@
   100% { transform: scale(1); opacity: 1; }
 }
 
+.effectToggle {
+  display: flex;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+  padding: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.effectBtn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.effectBtn:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.effectBtnActive {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.beamIcon {
+  width: 18px;
+  height: 18px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
+  animation: pulseBeam 3s infinite alternate ease-in-out;
+}
+
+@keyframes pulseBeam {
+  0% { transform: scale(1); filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4)); }
+  100% { transform: scale(1.05); filter: drop-shadow(0 1px 4px rgba(var(--accent-primary-rgb), 0.5)); }
+}
+
+
 

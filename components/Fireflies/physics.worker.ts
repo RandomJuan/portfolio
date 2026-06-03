@@ -9,6 +9,11 @@ let width = 0;
 let height = 0;
 let primaryColor = '0,0,0';
 let secondaryColor = '0,0,0';
+let themeId = '';
+let effectStyle = 'fireflies';
+let scrollProgress = 0;
+let cyclePhase = 0;
+let themeMode = 'dark';
 
 const fireflies: Firefly[] = [];
 let groupTargets: GroupTarget[] = Array.from({ length: 5 }, () => ({ x: 0, y: 0, z: 0 }));
@@ -34,14 +39,18 @@ function render() {
   ctxFg.clearRect(0, 0, width, height);
 
   for (const fly of fireflies) {
-    fly.updateWander(width, height, groupTargets[fly.groupId], fireflies);
+    if (effectStyle === 'beam') {
+      fly.updateDiagonalBeam(width, height, scrollProgress, cyclePhase);
+    } else {
+      fly.updateWander(width, height, groupTargets[fly.groupId], fireflies);
+    }
 
     if (fly.z > 400) {
       // Background canvas: using OffscreenCanvasRenderingContext2D which has standard Canvas context methods
-      fly.draw(ctxBg as any, width, height);
+      fly.draw(ctxBg as any, width, height, effectStyle, themeMode);
     } else {
       // Foreground canvas
-      fly.draw(ctxFg as any, width, height);
+      fly.draw(ctxFg as any, width, height, effectStyle, themeMode);
     }
   }
 
@@ -58,6 +67,9 @@ self.onmessage = (event: MessageEvent) => {
     height = data.height;
     primaryColor = data.primaryColor;
     secondaryColor = data.secondaryColor;
+    themeId = data.themeId || '';
+    themeMode = data.themeMode || 'dark';
+    effectStyle = data.effectStyle || 'fireflies';
 
     ctxBg = canvasBg!.getContext('2d') as OffscreenCanvasRenderingContext2D;
     ctxFg = canvasFg!.getContext('2d') as OffscreenCanvasRenderingContext2D;
@@ -84,6 +96,16 @@ self.onmessage = (event: MessageEvent) => {
   } else if (data.type === 'theme') {
     primaryColor = data.primaryColor;
     secondaryColor = data.secondaryColor;
+    themeId = data.themeId || '';
+    themeMode = data.themeMode || 'dark';
+    
+    const newEffectStyle = data.effectStyle || 'fireflies';
+    if (effectStyle !== newEffectStyle) {
+      effectStyle = newEffectStyle;
+      for (const fly of fireflies) {
+        fly.randomize(width, height);
+      }
+    }
     
     // Update existing fireflies colors
     for (const fly of fireflies) {
@@ -91,6 +113,9 @@ self.onmessage = (event: MessageEvent) => {
       fly.baseSecondary = secondaryColor;
       fly.glowColor = Math.random() > 0.5 ? primaryColor : secondaryColor;
     }
+  } else if (data.type === 'scroll') {
+    scrollProgress = data.scrollProgress;
+    cyclePhase = data.cyclePhase !== undefined ? data.cyclePhase : cyclePhase;
   } else if (data.type === 'destroy') {
     clearTimeout(randomizeTimeoutId);
     self.cancelAnimationFrame(animationFrameId);

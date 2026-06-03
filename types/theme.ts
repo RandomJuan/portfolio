@@ -22,6 +22,8 @@ export interface ThemeConfig {
   background: string;
   /** Radial gradient overlay inside the Fireflies canvas background layer */
   bgGradient: string;
+  /** Diagonal linear gradient used exclusively for the Beam effect mode */
+  beamGradient: string;
   /** Firefly glow colors */
   firefly: FireflyColor;
   /** Tailwind ring-color token for the switcher button, e.g. "ring-cyan-400" */

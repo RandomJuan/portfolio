@@ -14,7 +14,8 @@
   align-items: center;
   text-align: center;
   gap: 1rem;
-  max-width: 36rem;
+  max-width: 36rem; /* Refined width matching second image */
+  width: 100%;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   position: relative;
@@ -22,35 +23,47 @@
 }
 
 .roleBadge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 9999px;
-  background-color: var(--nav-bg);
-  border: 1px solid var(--foreground);
-  padding: 0.35rem 1.2rem;
-  font-size: 0.75rem;
+  background-color: transparent;
+  border: 1px solid color-mix(in srgb, var(--foreground) 20%, transparent); /* Delicate, subtle border */
+  padding: 0.35rem 1.2rem; /* Delicate padding */
+  font-size: 0.75rem; /* Refined small size */
   line-height: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  font-weight: 300;
-  text-indent: 0.15em; /* Compensates for letter-spacing padding on the right without shifting the container */
-  margin-bottom: -0.75rem; /* Pulls it closer to the heading below, counteracting the wrapper's 1rem gap */
+  font-weight: 400;
+  color: var(--foreground);
+  text-indent: 0.15em; /* Compensates for letter-spacing */
+  margin-bottom: -0.75rem; /* Pulls closer to heading */
+  opacity: 0.8;
 }
 
 .nameHeading {
   font-size: 2.25rem;
   line-height: 2.5rem;
-  font-weight: 600;
+  font-weight: 600; /* Cleaner weight */
   letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--foreground);
 }
 
 .description {
   font-size: 1rem;
-  line-height: 1.5rem;
-  opacity: 0.7;
+  line-height: 1.6;
+  opacity: 0.7; /* Soft refined opacity */
   font-weight: 300;
+  max-width: 32rem; /* Wrapped beautifully like the second image */
+  margin: 0 auto;
 }
 
 @media (min-width: 768px) {
+  .contentWrapper {
+    gap: 1.25rem;
+  }
+
   .nameHeading {
     font-size: 3rem;
     line-height: 1;
@@ -58,6 +71,7 @@
 
   .description {
     font-size: 1.125rem;
-    line-height: 1.75rem;
+    line-height: 1.75;
+    max-width: 34rem;
   }
 }
