@@ -51,21 +51,24 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   // Persist selection in localStorage across page loads
   useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+
+    // Resolve theme: prioritize localStorage, fallback to mobile 'deep-blue', then defaultTheme
     const storedTheme = localStorage.getItem('portfolio-theme') as ThemeId | null;
-    if (storedTheme) {
-      const found = themes.find((t) => t.id === storedTheme);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      if (found) setTheme(found);
-    }
+    const initialThemeId = storedTheme || (isMobile ? 'deep-blue' : defaultTheme.id);
+    const initialTheme = themes.find((t) => t.id === initialThemeId) || defaultTheme;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setTheme(initialTheme);
     
+    // Resolve effect style: prioritize localStorage (with legacy migration), fallback to mobile 'beam', then default
     const storedEffect = localStorage.getItem('portfolio-effect') as 'particles' | 'fireflies' | 'beam' | null;
-    if (storedEffect) {
-      if (storedEffect === 'particles') {
-        setEffectStyleState('fireflies');
-        localStorage.setItem('portfolio-effect', 'fireflies');
-      } else {
-        setEffectStyleState(storedEffect);
-      }
+    if (storedEffect === 'particles') {
+      setEffectStyleState('fireflies');
+      localStorage.setItem('portfolio-effect', 'fireflies');
+    } else if (storedEffect === 'fireflies' || storedEffect === 'beam') {
+      setEffectStyleState(storedEffect);
+    } else if (isMobile) {
+      setEffectStyleState('beam');
     }
   }, []);
 
