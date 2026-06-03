@@ -111,4 +111,4 @@ export const themes: ThemeConfig[] = [
   },
 ];
 
-export const defaultTheme = themes.find(t => t.id === 'bright-orange') || themes[0];
+export const defaultTheme = themes.find(t => t.id === 'deep-green') || themes[0];

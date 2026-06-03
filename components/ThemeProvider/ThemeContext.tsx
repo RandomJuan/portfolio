@@ -22,7 +22,7 @@ const ThemeContext = createContext<ThemeContextValue>({
   theme: defaultTheme,
   setThemeById: () => {},
   themes,
-  effectStyle: 'fireflies',
+  effectStyle: 'beam',
   setEffectStyle: () => {},
 });
 
@@ -47,27 +47,25 @@ function rgbToHex(rgbStr: string): string {
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<ThemeConfig>(defaultTheme);
-  const [effectStyle, setEffectStyleState] = useState<'fireflies' | 'beam'>('fireflies');
+  const [effectStyle, setEffectStyleState] = useState<'fireflies' | 'beam'>('beam');
 
   // Persist selection in localStorage across page loads
   useEffect(() => {
-    const isMobile = window.innerWidth < 768;
-
-    // Resolve theme: prioritize localStorage, fallback to mobile 'deep-blue', then defaultTheme
+    // Resolve theme: prioritize localStorage, fallback to defaultTheme
     const storedTheme = localStorage.getItem('portfolio-theme') as ThemeId | null;
-    const initialThemeId = storedTheme || (isMobile ? 'deep-blue' : defaultTheme.id);
+    const initialThemeId = storedTheme || defaultTheme.id;
     const initialTheme = themes.find((t) => t.id === initialThemeId) || defaultTheme;
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setTheme(initialTheme);
     
-    // Resolve effect style: prioritize localStorage (with legacy migration), fallback to mobile 'beam', then default
+    // Resolve effect style: prioritize localStorage (with legacy migration), fallback to default ('beam')
     const storedEffect = localStorage.getItem('portfolio-effect') as 'particles' | 'fireflies' | 'beam' | null;
     if (storedEffect === 'particles') {
       setEffectStyleState('fireflies');
       localStorage.setItem('portfolio-effect', 'fireflies');
     } else if (storedEffect === 'fireflies' || storedEffect === 'beam') {
       setEffectStyleState(storedEffect);
-    } else if (isMobile) {
+    } else {
       setEffectStyleState('beam');
     }
   }, []);
