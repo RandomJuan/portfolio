@@ -1,4 +1,5 @@
 import { Firefly, GroupTarget } from './Firefly';
+import { EffectStyle } from '@/types/theme';
 
 let canvasBg: OffscreenCanvas | null = null;
 let canvasFg: OffscreenCanvas | null = null;
@@ -39,8 +40,8 @@ function render() {
   ctxFg.clearRect(0, 0, width, height);
 
   for (const fly of fireflies) {
-    if (effectStyle === 'beam') {
-      fly.updateDiagonalBeam(width, height, scrollProgress, cyclePhase);
+    if (effectStyle === EffectStyle.BEAM) {
+      fly.updateDiagonalBeam(canvasBg.width, canvasBg.height, scrollProgress, cyclePhase);
     } else {
       fly.updateWander(width, height, groupTargets[fly.groupId], fireflies);
     }

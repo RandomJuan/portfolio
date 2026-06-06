@@ -421,47 +421,66 @@ export class Firefly {
 
     // 1. The Physical Core (gives the particle "mass" and 3D volume)
     const coreRadius = screenS * 2.0;
-    
-    // Offset the highlight to simulate a light source coming from top-left
-    const highlightX = -coreRadius * 0.3;
-    const highlightY = -coreRadius * 0.3;
-    
     const isLight = themeMode === 'light';
-    const highlightStop = isLight ? 0.12 : 0.4;
 
-    const coreGrad = ctx.createRadialGradient(
-      highlightX, highlightY, 0, 
-      0, 0, coreRadius
-    );
-    // Hot white specular highlight
-    coreGrad.addColorStop(0, `rgba(255, 255, 255, ${alpha})`); 
-    // Solid physical body color
-    coreGrad.addColorStop(highlightStop, `rgba(${this.glowColor}, ${alpha * 0.95})`); 
-    // Darker, richer edge to create 3D spherical shading (ambient occlusion)
-    coreGrad.addColorStop(0.85, `rgba(${this.glowColor}, ${alpha * 0.45})`); 
-    // Crisp physical boundary
-    coreGrad.addColorStop(1, `rgba(${this.glowColor}, 0)`); 
+    if (isLight) {
+      // Centered reverse-neon style for light mode (white core, solid dark stroke)
+      const coreGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, coreRadius);
+      coreGrad.addColorStop(0, `rgba(255, 255, 255, ${alpha})`); 
+      coreGrad.addColorStop(0.4, `rgba(255, 255, 255, ${alpha})`); 
+      coreGrad.addColorStop(0.6, `rgba(${this.glowColor}, ${alpha * 0.95})`); 
+      coreGrad.addColorStop(1, `rgba(${this.glowColor}, ${alpha * 0.95})`); 
 
-    // 2. The Outer Bloom (emissive light bleed)
-    const glowRadius = coreRadius * 3.5;
-    const bloomGrad = ctx.createRadialGradient(0, 0, coreRadius, 0, 0, glowRadius);
-    bloomGrad.addColorStop(0, `rgba(${this.glowColor}, ${alpha * 0.6})`);
-    bloomGrad.addColorStop(1, `rgba(${this.glowColor}, 0)`);
+      const glowRadius = coreRadius * 1.8;
+      const bloomGrad = ctx.createRadialGradient(0, 0, coreRadius, 0, 0, glowRadius);
+      bloomGrad.addColorStop(0, `rgba(${this.glowColor}, ${alpha * 0.8})`);
+      bloomGrad.addColorStop(1, `rgba(${this.glowColor}, 0)`);
 
-    // Draw Bloom Layer
-    ctx.shadowColor = `rgba(${this.glowColor}, ${alpha})`;
-    ctx.shadowBlur = 15 + Math.abs(this.z / 4);
-    ctx.fillStyle = bloomGrad;
-    ctx.beginPath();
-    ctx.arc(0, 0, glowRadius, 0, Math.PI * 2);
-    ctx.fill();
+      ctx.shadowColor = `rgba(${this.glowColor}, ${alpha})`;
+      ctx.shadowBlur = 5;
+      ctx.fillStyle = bloomGrad;
+      ctx.beginPath();
+      ctx.arc(0, 0, glowRadius, 0, Math.PI * 2);
+      ctx.fill();
 
-    // Draw Physical Core Layer
-    ctx.shadowBlur = 0; // Turn off shadow so the physical core remains sharp and solid
-    ctx.fillStyle = coreGrad;
-    ctx.beginPath();
-    ctx.arc(0, 0, coreRadius, 0, Math.PI * 2);
-    ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = coreGrad;
+      ctx.beginPath();
+      ctx.arc(0, 0, coreRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+    } else {
+      // Offset 3D shading for dark mode
+      const highlightX = -coreRadius * 0.3;
+      const highlightY = -coreRadius * 0.3;
+
+      const coreGrad = ctx.createRadialGradient(
+        highlightX, highlightY, 0, 
+        0, 0, coreRadius
+      );
+      coreGrad.addColorStop(0, `rgba(255, 255, 255, ${alpha})`); 
+      coreGrad.addColorStop(0.12, `rgba(${this.glowColor}, ${alpha * 0.95})`); 
+      coreGrad.addColorStop(0.85, `rgba(${this.glowColor}, ${alpha * 0.45})`); 
+      coreGrad.addColorStop(1, `rgba(${this.glowColor}, 0)`); 
+
+      const glowRadius = coreRadius * 3.5;
+      const bloomGrad = ctx.createRadialGradient(0, 0, coreRadius, 0, 0, glowRadius);
+      bloomGrad.addColorStop(0, `rgba(${this.glowColor}, ${alpha * 0.6})`);
+      bloomGrad.addColorStop(1, `rgba(${this.glowColor}, 0)`);
+
+      ctx.shadowColor = `rgba(${this.glowColor}, ${alpha})`;
+      ctx.shadowBlur = 15 + Math.abs(this.z / 4);
+      ctx.fillStyle = bloomGrad;
+      ctx.beginPath();
+      ctx.arc(0, 0, glowRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = coreGrad;
+      ctx.beginPath();
+      ctx.arc(0, 0, coreRadius, 0, Math.PI * 2);
+      ctx.fill();
+    }
 
     ctx.restore();
   }

@@ -7,23 +7,29 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { ThemeConfig, ThemeId } from '@/types/theme';
+import { ThemeConfig, ThemeId, ThemeModeConfig, EffectStyle } from '@/types/theme';
 import { themes, defaultTheme } from '@/lib/themeData';
 
+export type ResolvedThemeConfig = Omit<ThemeConfig, 'light' | 'dark'> & ThemeModeConfig & { mode: 'light' | 'dark' };
+
 interface ThemeContextValue {
-  theme: ThemeConfig;
+  theme: ResolvedThemeConfig;
   setThemeById: (id: ThemeId) => void;
   themes: ThemeConfig[];
-  effectStyle: 'fireflies' | 'beam';
-  setEffectStyle: (style: 'fireflies' | 'beam') => void;
+  effectStyle: EffectStyle;
+  setEffectStyle: (style: EffectStyle) => void;
+  themeMode: 'light' | 'dark';
+  setThemeMode: (mode: 'light' | 'dark') => void;
 }
 
 const ThemeContext = createContext<ThemeContextValue>({
-  theme: defaultTheme,
+  theme: { ...defaultTheme, ...defaultTheme.dark, mode: 'dark' },
   setThemeById: () => {},
   themes,
-  effectStyle: 'beam',
-  setEffectStyle: () => {},
+  effectStyle: EffectStyle.BEAM,
+  setEffectStyle: () => { },
+  themeMode: 'dark',
+  setThemeMode: () => {},
 });
 
 function hexToRgb(hex: string): string {
@@ -46,33 +52,62 @@ function rgbToHex(rgbStr: string): string {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<ThemeConfig>(defaultTheme);
-  const [effectStyle, setEffectStyleState] = useState<'fireflies' | 'beam'>('beam');
+  const [themeId, setThemeIdState] = useState<ThemeId>(defaultTheme.id);
+  const [themeMode, setThemeModeState] = useState<'light' | 'dark'>('dark');
+  const [effectStyle, setEffectStyleState] = useState<EffectStyle>(EffectStyle.BEAM);
+
+  // Derive the active theme config
+  const themeDef = themes.find(t => t.id === themeId) || defaultTheme;
+  const theme: ResolvedThemeConfig = {
+    ...themeDef,
+    ...themeDef[themeMode],
+    mode: themeMode
+  };
 
   // Persist selection in localStorage across page loads
   useEffect(() => {
-    // Resolve theme: prioritize localStorage, fallback to defaultTheme
+    // Resolve theme
     const storedTheme = localStorage.getItem('portfolio-theme') as ThemeId | null;
-    const initialThemeId = storedTheme || defaultTheme.id;
-    const initialTheme = themes.find((t) => t.id === initialThemeId) || defaultTheme;
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setTheme(initialTheme);
+    if (storedTheme && themes.some(t => t.id === storedTheme)) {
+      setThemeIdState(storedTheme);
+    }
     
-    // Resolve effect style: prioritize localStorage (with legacy migration), fallback to default ('beam')
-    const storedEffect = localStorage.getItem('portfolio-effect') as 'particles' | 'fireflies' | 'beam' | null;
-    if (storedEffect === 'particles') {
-      setEffectStyleState('fireflies');
-      localStorage.setItem('portfolio-effect', 'fireflies');
-    } else if (storedEffect === 'fireflies' || storedEffect === 'beam') {
+    // Resolve mode
+    const storedMode = localStorage.getItem('portfolio-theme-mode') as 'light' | 'dark' | null;
+    if (storedMode === 'light' || storedMode === 'dark') {
+      setThemeModeState(storedMode);
+    }
+    
+    // Resolve effect style
+    const storedEffect = localStorage.getItem('portfolio-effect') as EffectStyle | null;
+
+    if (!storedEffect) {
+      if (window.innerWidth <= 768) {
+        setThemeIdState('deep-blue');
+      }
+      setEffectStyleState(EffectStyle.BEAM);
+    } else if (Object.values(EffectStyle).includes(storedEffect)) {
       setEffectStyleState(storedEffect);
     } else {
-      setEffectStyleState('beam');
+      setEffectStyleState(EffectStyle.BEAM);
     }
   }, []);
 
-  const setEffectStyle = useCallback((style: 'fireflies' | 'beam') => {
+  const setEffectStyle = useCallback((style: EffectStyle) => {
     setEffectStyleState(style);
     localStorage.setItem('portfolio-effect', style);
+  }, []);
+
+  const setThemeById = useCallback((id: ThemeId) => {
+    if (themes.some((t) => t.id === id)) {
+      setThemeIdState(id);
+      localStorage.setItem('portfolio-theme', id);
+    }
+  }, []);
+
+  const setThemeMode = useCallback((mode: 'light' | 'dark') => {
+    setThemeModeState(mode);
+    localStorage.setItem('portfolio-theme-mode', mode);
   }, []);
 
   // Apply body text color and background dynamically
@@ -86,8 +121,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     
     // Inject accent theme variables
     const rgb = hexToRgb(theme.accentHex);
-    const lightTextAccents = ['clean-white', 'bright-orange', 'amber-white'];
-    const accentContrast = lightTextAccents.includes(theme.id) ? '#ffffff' : '#0f172a';
+    // Dark mode contrasts well with white text. Light mode contrast depends.
+    const accentContrast = theme.mode === 'dark' ? '#ffffff' : '#ffffff'; 
     
     document.documentElement.style.setProperty('--accent-hex', theme.accentHex);
     document.documentElement.style.setProperty('--accent-rgb', rgb);
@@ -134,15 +169,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     document.body.classList.remove('text-white', 'text-slate-900');
   }, [theme]);
 
-  const setThemeById = useCallback((id: ThemeId) => {
-    const found = themes.find((t) => t.id === id);
-    if (!found) return;
-    setTheme(found);
-    localStorage.setItem('portfolio-theme', id);
-  }, []);
-
   return (
-    <ThemeContext.Provider value={{ theme, setThemeById, themes, effectStyle, setEffectStyle }}>
+    <ThemeContext.Provider value={{ theme, setThemeById, themes, effectStyle, setEffectStyle, themeMode, setThemeMode }}>
       {children}
     </ThemeContext.Provider>
   );
