@@ -1,3 +1,14 @@
+/**
+ * Contact Section
+ * ---------------
+ * The footer section prompting user engagement and providing contact methods.
+ * 
+ * Responsibilities:
+ * - Displays a primary call-to-action button that triggers a mailto link.
+ * - Serves as the page footer, displaying copyright information and social media links.
+ * - Includes a subtle background glow effect for aesthetic depth.
+ */
+
 import { ContactData } from "@/types/contact";
 import styles from "./ContactSection.module.css";
 
@@ -10,10 +21,7 @@ export default function ContactSection({ contactData }: Props) {
     <div className={styles.container}>
       
       {/* Decorative center glowing blob */}
-      <div className={styles.blob} />
-
-      {/* Top spacer to push contact contents down into vertical symmetry */}
-      <div />
+      <div className={styles.blob} aria-hidden="true" />
 
       <div className={`${styles.contentWrapper} avoid-zone`}>
         <div>

@@ -32,6 +32,8 @@ export interface ThemeModeConfig {
   firefly: FireflyColor;
   /** Hex accent for navbar text / hover tint */
   accentHex: string;
+  /** Optional custom contrast text color for elements that use accentHex as background */
+  accentContrast?: string;
 }
 
 export interface ThemeConfig {

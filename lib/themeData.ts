@@ -36,6 +36,7 @@ export const themes: ThemeConfig[] = [
       textColor: 'text-white',
       firefly: { primary: '255, 255, 255', secondary: '200, 200, 200' }, // White in dark mode
       accentHex: '#ffffff',
+      accentContrast: '#000000',
     },
     light: {
       background: '#ffffff',
@@ -141,4 +142,4 @@ export const themes: ThemeConfig[] = [
   },
 ];
 
-export const defaultTheme = themes.find(t => t.id === 'deep-green') || themes[0];
+export const defaultTheme = themes.find(t => t.id === 'clean-white') || themes[0];

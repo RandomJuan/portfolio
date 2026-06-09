@@ -1,3 +1,14 @@
+/**
+ * About Section
+ * -------------
+ * A biography component detailing personal background and highlights.
+ * 
+ * Responsibilities:
+ * - Displays a profile image alongside a descriptive biography.
+ * - Renders a list of highlight badges (e.g., skills, facts) from the about data config.
+ * - Handles responsive reflow between desktop (side-by-side) and mobile (stacked) layouts.
+ */
+
 import { AboutData } from "@/types/about";
 import styles from "./AboutSection.module.css";
 

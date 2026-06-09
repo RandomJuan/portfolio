@@ -1,3 +1,13 @@
+/**
+ * Presentation Section (Hero)
+ * ---------------------------
+ * The top-level hero banner displayed when landing on the page.
+ * 
+ * Responsibilities:
+ * - Displays the user's name, role, and a brief introductory description.
+ * - Consumes data from the presentation config to remain purely presentational.
+ */
+
 import { presentationCard } from "@/types/presentation"
 import styles from "./PresentationSection.module.css"
 

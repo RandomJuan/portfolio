@@ -1,6 +1,6 @@
-# Welcome to My Portfolio 👋
+# Welcome to My Portfolio!
 
-Welcome to my portfolio! I built this project to give you a clear look at my background and the tech stack I work with. The goal from day one was to keep the codebase clean and simple under the hood, while delivering a sleek, cutting-edge technical aesthetic on the surface.
+I built this project to give you a clear look at my background and the tech stack I work with. The goal from day one was to keep the codebase clean and simple under the hood, while delivering a sleek, cutting-edge technical aesthetic on the surface.
 
 
 
@@ -18,7 +18,7 @@ Welcome to my portfolio! I built this project to give you a clear look at my bac
 
 ## Getting Started
 
-Want to try it out on your own computer? Just follow these steps:
+If you want to try it out on your own computer, just follow these steps:
 
 ### Prerequisites
 Make sure you have [Node.js](https://nodejs.org/) installed on your computer.

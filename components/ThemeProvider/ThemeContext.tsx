@@ -121,8 +121,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     
     // Inject accent theme variables
     const rgb = hexToRgb(theme.accentHex);
-    // Dark mode contrasts well with white text. Light mode contrast depends.
-    const accentContrast = theme.mode === 'dark' ? '#ffffff' : '#ffffff'; 
+    // Use defined contrast or fallback to white
+    const accentContrast = theme.accentContrast || '#ffffff';
     
     document.documentElement.style.setProperty('--accent-hex', theme.accentHex);
     document.documentElement.style.setProperty('--accent-rgb', rgb);

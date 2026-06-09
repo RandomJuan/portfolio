@@ -1,4 +1,16 @@
 'use client';
+
+/**
+ * Fireflies Background Engine
+ * ---------------------------
+ * The primary container for the interactive background aesthetic layer.
+ * 
+ * Responsibilities:
+ * - Acts as the visual container for the background canvas elements.
+ * - Uses `useFireflyEngine` to offload physics calculations and canvas drawing to a Web Worker.
+ * - Uses `useBeamScrollProgress` and child components (`DiagonalBeams`, `GroundImpacts`) to render scroll-reactive visual effects.
+ */
+
 import { useRef, useId } from 'react';
 import { useTheme } from '@/components/ThemeProvider/ThemeContext';
 import { Firefly } from './Firefly';
@@ -61,7 +73,7 @@ export default function Fireflies({ isGlobal = false }: { isGlobal?: boolean }) 
     >
       {/* BASE BACKGROUND FOR NON-BEAM MODES */}
       {effectStyle === EffectStyle.FIREFLIES && (
-        <div className={styles.bgGradient} style={{ background: theme.bgGradient }} />
+        <div className={styles.bgGradient} style={{ background: theme.bgGradient }} aria-hidden="true" />
       )}
 
       {/* SPECIALIZED BEAM EFFECTS */}

@@ -1,5 +1,16 @@
 'use client';
 
+/**
+ * Theme Switcher
+ * --------------
+ * A dropdown component allowing users to toggle aesthetic themes and light/dark modes.
+ * 
+ * Responsibilities:
+ * - Reads the active theme from the `ThemeContext`.
+ * - Provides a dropdown menu to select from available predefined themes.
+ * - Provides a toggle button to switch between light and dark modes.
+ */
+
 import { useState, useRef, useEffect } from 'react';
 import { useTheme } from '@/components/ThemeProvider/ThemeContext';
 import { ThemeConfig, EffectStyle } from '@/types/theme';
@@ -186,7 +197,7 @@ function ThemePreviewCard({ t, active, effectStyle, themeMode, onSelect }: { t: 
           <line x1="3" y1="21" x2="21" y2="3" stroke={`url(#beamIconGrad-${t.id})`} strokeWidth="5.5" strokeLinecap="round" />
         </svg>
       ) : (
-        <div className={styles.previewColor} style={{ background: gradient }} />
+        <div className={styles.previewColor} style={{ background: gradient }} aria-hidden="true" />
       )}
       <span className={styles.previewName}>{t.displayName}</span>
       {active && (

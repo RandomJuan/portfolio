@@ -1,5 +1,17 @@
 'use client';
 
+/**
+ * Main Portfolio Page
+ * -------------------
+ * Serves as the root layout orchestrator for the portfolio.
+ * 
+ * Responsibilities:
+ * 1. Composes the primary visual sections (Presentation, About, Experience, Contact).
+ * 2. Mounts the global Navigation bar for section jumping.
+ * 3. Mounts the Fireflies background layer beneath the content.
+ * 4. Wraps the application in the ThemeProvider for light/dark mode support.
+ */
+
 import { usePortfolioNavigation } from "@/hooks/usePortfolioNavigation";
 import { presentationCardData } from "@/lib/presentationData";
 import { aboutData } from "@/lib/aboutData";
