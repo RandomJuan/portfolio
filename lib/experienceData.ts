@@ -30,6 +30,9 @@ export const experienceData: ExperienceData = {
     // Core Languages
     "TypeScript", "Python", "Java", "C#", 
     
+    // Systems & Low-Level
+    "C", "C++", "Assembly",
+    
     // Frontend
     "React", "Next.js", "Tailwind CSS", "Vite", 
     
